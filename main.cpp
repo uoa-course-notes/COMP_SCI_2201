@@ -27,9 +27,7 @@ int INTEGER_DIVISION(int i1, int i2, int B){
 
 
 int main(int argc, char* argv[]){
-  std::string input = argv[1];
   
-
   // Declare and initialize the variables extracted from the command-line argument  
   int I1 = std::atoi(argv[1]);
   int I2 = std::atoi(argv[2]);
