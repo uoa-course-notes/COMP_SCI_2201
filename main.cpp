@@ -15,38 +15,39 @@ std::vector<int> digits_transform_alloc(const std::string& s)
 }
 
 // Integer addition 
-int GRADE_SCHOOL_INTEGER_SUBTRACTION(std::vector<int> i1, std::vector<int> i2, int B){
+std::string GRADE_SCHOOL_INTEGER_SUBTRACTION(std::vector<int> i1, std::vector<int> i2, int B){
 
-  return 0;
+  return "";
 }
 // Working with base 2
-int GRADE_SCHOOL_INTEGER_ADDITION(std::vector<int> i1, std::vector<int> i2, int B){
+std::string GRADE_SCHOOL_INTEGER_ADDITION(std::vector<int> i1, std::vector<int> i2, int B){
 
-  return 0;
+  return "";
 }
 
 // Working with base 10
 
 
 // Karatsuba Algorithm for Integer Multiplication
-int KARATSUBA_ALGORITHM(std::vector<int> i1, std::vector<int> i2, int B){
-  return 1;
+std::string KARATSUBA_ALGORITHM(std::vector<int> i1, std::vector<int> i2, int B){
+  return "";
 }
 
 
 // Integer division (Post-graduate only)
-int INTEGER_DIVISION(std::vector<int> i1, std::vector<int> i2, int B){
-  return 0;
+std::string INTEGER_DIVISION(std::vector<int> i1, std::vector<int> i2, int B){
+  return "";
 }
 
 
 int main(int argc, char* argv[]){
-  
+
     // Declare and initialize the variables extracted from the command-line argument  
     std::string pre_I1 = argv[1];
     std::string pre_I2 = argv[2];
     std::string pre_B = argv[3];
     // std::cout << pre_I1 << std::endl;
+
 
     // Extract each digit into a list of integers.
     std::vector<int> I1 = digits_transform_alloc(pre_I1);
@@ -55,9 +56,9 @@ int main(int argc, char* argv[]){
 
     int B = B_vec[0];
   
-    int res_addition = GRADE_SCHOOL_INTEGER_ADDITION(I1, I2, B);
-    int res_multiplication = KARATSUBA_ALGORITHM(I1, I2, B);
-    int res_division = INTEGER_DIVISION(I1, I2, B);
+    std::string res_addition = GRADE_SCHOOL_INTEGER_ADDITION(I1, I2, B);
+    std::string res_multiplication = KARATSUBA_ALGORITHM(I1, I2, B);
+    std::string res_division = INTEGER_DIVISION(I1, I2, B);
 
 
     std::cout << res_addition 
@@ -65,6 +66,8 @@ int main(int argc, char* argv[]){
               <<  res_multiplication 
               << " " 
               << res_division;
+
+
 
   return 0;
 }
