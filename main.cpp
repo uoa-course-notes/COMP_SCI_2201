@@ -275,14 +275,14 @@ int main(int argc, char* argv[]){
     std::vector<int> res_division = INTEGER_DIVISION(I1, I2, B);
     
     std::string Addition = digits_transform_output(res_addition);
-
-    // std::cout << res_addition;
-              // << " "
-              // <<  res_multiplication 
-              // << " " 
-              // << res_division;
-  // print_digits(res_addition);
-
+    std::string Multiplication = digits_transform_output(res_multiplication);
+    std::string Division = digits_transform_output(res_division);
+    std::cout << Addition
+              << " "
+              << Multiplication
+              << " "
+              << Division;
+    
 
   return 0;
 }
