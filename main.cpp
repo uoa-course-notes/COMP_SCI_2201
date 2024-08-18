@@ -70,79 +70,48 @@ void align(
 
 
 // Integer Subtraction 
-std::vector<int> GRADE_SCHOOL_INTEGER_SUBTRACTION(std::vector<int> I1, std::vector<int> I2, int B) {
-    align(I1, I2);
-    int s1 = I1.size();
-    std::vector<int> S(s1);
+std::vector<std::string> GRADE_SCHOOL_INTEGER_SUBTRACTION(std::vector<int> I1, std::vector<int> I2, int B){
+  align(I1, I2);
+  std::map<int, std::string> hex_map = {
+    {10,"A"},
+    {11,"B"},
+    {12,"C"},
+    {13,"D"},
+    {14,"E"},
+    {15,"F"}
+  };
+//   int c = 0;
+  // Now I1 and I2 must be of the same size
+  int s1 = I1.size();
+  //   int s2 = I2.size();
+  // vector of sums 
+  std::vector<std::string> S(s1);
+    for (int i = s1-1; i >= 0; i--){
+        if (I1[i] - I2[i] < 0){
+            I1[i] = I1[i] + B;
 
-    for (int i = s1 - 1; i >= 0; i--) {
-        if (I1[i] < I2[i]) {
-            I1[i] += B;
-            I1[i - 1] -= 1;
+            S[i] = std::to_string(I1[i] - I2[i]);
+            std::map<int, std::string>::iterator it = hex_map.find(stoi(S[i]));        
+            if (it != hex_map.end()){
+                S[i] = it->second;
+            }
+            // Decrement the next digit by 1 
+            I1[i-1]--;
         }
-        S[i] = I1[i] - I2[i];
+        else{ // I1[i] - I2[i] >= 0
+            S[i] = std::to_string(I1[i] - I2[i]);
+            std::map<int, std::string>::iterator it = hex_map.find(stoi(S[i]));        
+            if (it != hex_map.end()){
+                S[i] = it->second;
+            }
+        }
     }
 
-    // Remove leading zeros
-    while (S.size() > 1 && S[0] == 0) {
-        S.erase(S.begin());
-    }
-
-    return S;
+  return S;
 }
 // Working with base 2
 
-// Working with base 2
-// std::vector<std::string> GRADE_SCHOOL_INTEGER_ADDITION(std::vector<int> I1, std::vector<int> I2, int B){
-//   align(I1, I2);
-//   if (B < 2 && B > 9) return {"-1"};
-//   std::map<int, std::string> hex_map = {
-//     {10,"A"},
-//     {11,"B"},
-//     {12,"C"},
-//     {13,"D"},
-//     {14,"E"},
-//     {15,"F"},
-//     {16,"G"}
-//   };
-//   int c = 0;
-//   // Now I1 and I2 must be of the same size
-//   int s1 = I1.size();
-// //   int s2 = I2.size();
-//   // vector of sums 
-//   std::vector<std::string> S(s1);
 
-//   // std::cout << "base B = " << B << std::endl;
-//   // std::cout << "I1 = " << std::endl;
-//   // print_digits(I1);  
-//   // std::cout << "I2 = " << std::endl;
-//   // print_digits(I2);
-//   // std::cout << "before loop" << std::endl;
-
-
-//   std::cin.get();
-//   for (int i = s1-1; i>= 0; i--){ // BEGIN 
-//     if (I1[i] + I2[i] + c >= B){
-//         S[i] = std::to_string((I1[i] + I2[i] + c) % B);
-//         // Convert to appropriate character (for higher bases)
-//         std::map<int, std::string>::iterator it = hex_map.find(stoi(S[i]));        
-//         if (it != hex_map.end()){
-//             S[i] = it->second;
-//         }
-//         // if not, continue. In any case, this should work. 
-//         c = 1;
-  
-//     }
-//     else{ // I1[i] + I2[i] + c < B
-//         S[i] = std::to_string(I1[i] + I2[i] + c);
-//         c = 0;
-//         // std::cout << "In 2nd if -- Enter:" << std::endl;
-//         // std::cin.get();
-//     }
-//   } // END 
-
-//   return S;
-// }
 
 
 std::vector<std::string> GRADE_SCHOOL_INTEGER_ADDITION(std::vector<int> I1, std::vector<int> I2, int B){
@@ -194,25 +163,6 @@ std::vector<std::string> GRADE_SCHOOL_INTEGER_ADDITION(std::vector<int> I1, std:
 
 
 
-// Working with base 10
-// std::vector<int> GRADE_SCHOOL_INTEGER_ADDITION(std::vector<int> I1, std::vector<int> I2, int B) {
-//     align(I1, I2);
-//     int carry = 0;
-//     int s1 = I1.size();
-//     std::vector<int> S(s1);
-
-//     for (int i = s1 - 1; i >= 0; i--) {
-//         int sum = I1[i] + I2[i] + carry;
-//         S[i] = sum % B;
-//         carry = sum / B;
-//     }
-    
-//     if (carry > 0) {
-//         S.insert(S.begin(), carry); // Prepend carry if it overflows
-//     }
-
-//     return S;
-// }
 
 // Karatsuba Algorithm for Integer Multiplication
 // std::vector<int> KARATSUBA_ALGORITHM(std::vector<int> I1, std::vector<int> I2, int B) {
