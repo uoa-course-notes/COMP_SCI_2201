@@ -17,10 +17,10 @@ std::vector<int> digits_transform_alloc(const std::string& s)
 
 
 // Use this to convert the resulting vector of strings into a string
-std::string digits_transform_output(const std::vector<int>& s){
+std::string digits_transform_output(const std::vector<std::string>& s){
     std::string result = "";
-    for (const int& elem: s){   
-        result += std::to_string(elem);
+    for (const std::string& elem: s){   
+        result += elem;
     }
 
     // Remove leading zeros from the result
@@ -69,7 +69,7 @@ void align(
 
 
 
-// Integer addition 
+// Integer Subtraction 
 std::vector<int> GRADE_SCHOOL_INTEGER_SUBTRACTION(std::vector<int> I1, std::vector<int> I2, int B) {
     align(I1, I2);
     int s1 = I1.size();
@@ -112,14 +112,14 @@ std::vector<int> GRADE_SCHOOL_INTEGER_SUBTRACTION(std::vector<int> I1, std::vect
 //   // vector of sums 
 //   std::vector<std::string> S(s1);
 
-//   std::cout << "base B = " << B << std::endl;
-//   std::cout << "I1 = " << std::endl;
-//   print_digits(I1);  
-//   std::cout << "I2 = " << std::endl;
-//   print_digits(I2);
+//   // std::cout << "base B = " << B << std::endl;
+//   // std::cout << "I1 = " << std::endl;
+//   // print_digits(I1);  
+//   // std::cout << "I2 = " << std::endl;
+//   // print_digits(I2);
+//   // std::cout << "before loop" << std::endl;
 
 
-//   std::cout << "before loop" << std::endl;
 //   std::cin.get();
 //   for (int i = s1-1; i>= 0; i--){ // BEGIN 
 //     if (I1[i] + I2[i] + c >= B){
@@ -145,75 +145,123 @@ std::vector<int> GRADE_SCHOOL_INTEGER_SUBTRACTION(std::vector<int> I1, std::vect
 // }
 
 
+std::vector<std::string> GRADE_SCHOOL_INTEGER_ADDITION(std::vector<int> I1, std::vector<int> I2, int B){
+  align(I1, I2);
+//   if (B < 2 && B > 9) return {"-1"};
+  std::map<int, std::string> hex_map = {
+    {10,"A"},
+    {11,"B"},
+    {12,"C"},
+    {13,"D"},
+    {14,"E"},
+    {15,"F"}  
+    };
+  int c = 0;
+  // Now I1 and I2 must be of the same size
+  int s1 = I1.size();
+//   int s2 = I2.size();
+  // vector of sums 
+    std::vector<std::string> S(s1);
+  for (int i = s1-1; i>= 0; i--){ // BEGIN 
+    if (I1[i] + I2[i] + c >= B){
+        S[i] = std::to_string((I1[i] + I2[i] + c) % B);
+        // Convert to appropriate character (for higher bases)
+        std::map<int, std::string>::iterator it = hex_map.find(stoi(S[i]));        
+        if (it != hex_map.end()){
+            S[i] = it->second;
+        }
+        // std::cout << "S[i] = " << S[i] << std::endl;
+        // std::cout << "In 1st if -- Enter:" << std::endl;
+        // std::cin.get();
+        c = 1;
+  
+    }
+    else{ // I1[i] + I2[i] + c < B
+        S[i] = std::to_string(I1[i] + I2[i] + c);
+        //
+        std::map<int, std::string>::iterator it = hex_map.find(stoi(S[i]));        
+        if (it != hex_map.end()){
+            S[i] = it->second;
+        }
+        c = 0;
+        // std::cout << "In 2nd if -- Enter:" << std::endl;
+        // std::cin.get();
+    }
+  } // END 
+
+  return S;
+}
+
+
 
 // Working with base 10
-std::vector<int> GRADE_SCHOOL_INTEGER_ADDITION(std::vector<int> I1, std::vector<int> I2, int B) {
-    align(I1, I2);
-    int carry = 0;
-    int s1 = I1.size();
-    std::vector<int> S(s1);
+// std::vector<int> GRADE_SCHOOL_INTEGER_ADDITION(std::vector<int> I1, std::vector<int> I2, int B) {
+//     align(I1, I2);
+//     int carry = 0;
+//     int s1 = I1.size();
+//     std::vector<int> S(s1);
 
-    for (int i = s1 - 1; i >= 0; i--) {
-        int sum = I1[i] + I2[i] + carry;
-        S[i] = sum % B;
-        carry = sum / B;
-    }
+//     for (int i = s1 - 1; i >= 0; i--) {
+//         int sum = I1[i] + I2[i] + carry;
+//         S[i] = sum % B;
+//         carry = sum / B;
+//     }
     
-    if (carry > 0) {
-        S.insert(S.begin(), carry); // Prepend carry if it overflows
-    }
+//     if (carry > 0) {
+//         S.insert(S.begin(), carry); // Prepend carry if it overflows
+//     }
 
-    return S;
-}
+//     return S;
+// }
 
 // Karatsuba Algorithm for Integer Multiplication
-std::vector<int> KARATSUBA_ALGORITHM(std::vector<int> I1, std::vector<int> I2, int B) {
-    align(I1, I2);
-    int n = I1.size();
-    if (n <= 4) {  // Base case: Use grade-school multiplication for small numbers
-        // Implement the grade-school multiplication here
-        std::vector<int> result(n * 2, 0);
-        for (int i = n - 1; i >= 0; --i) {
-            for (int j = n - 1; j >= 0; --j) {
-                int prod = I1[i] * I2[j] + result[i + j + 1];
-                result[i + j + 1] = prod % B;
-                result[i + j] += prod / B;
-            }
-        }
-        // Remove leading zeros
-        while (result.size() > 1 && result[0] == 0) {
-            result.erase(result.begin());
-        }
-        return result;
-    }
+// std::vector<int> KARATSUBA_ALGORITHM(std::vector<int> I1, std::vector<int> I2, int B) {
+//     align(I1, I2);
+//     int n = I1.size();
+//     if (n <= 4) {  // Base case: Use grade-school multiplication for small numbers
+//         // Implement the grade-school multiplication here
+//         std::vector<int> result(n * 2, 0);
+//         for (int i = n - 1; i >= 0; --i) {
+//             for (int j = n - 1; j >= 0; --j) {
+//                 int prod = I1[i] * I2[j] + result[i + j + 1];
+//                 result[i + j + 1] = prod % B;
+//                 result[i + j] += prod / B;
+//             }
+//         }
+//         // Remove leading zeros
+//         while (result.size() > 1 && result[0] == 0) {
+//             result.erase(result.begin());
+//         }
+//         return result;
+//     }
 
-    int mid = n / 2;
+//     int mid = n / 2;
 
-    // Split I1 and I2 into two halves
-    std::vector<int> I1_low(I1.begin() + mid, I1.end());
-    std::vector<int> I1_high(I1.begin(), I1.begin() + mid);
-    std::vector<int> I2_low(I2.begin() + mid, I2.end());
-    std::vector<int> I2_high(I2.begin(), I2.begin() + mid);
+//     // Split I1 and I2 into two halves
+//     std::vector<int> I1_low(I1.begin() + mid, I1.end());
+//     std::vector<int> I1_high(I1.begin(), I1.begin() + mid);
+//     std::vector<int> I2_low(I2.begin() + mid, I2.end());
+//     std::vector<int> I2_high(I2.begin(), I2.begin() + mid);
 
-    // Recursively calculate the three products
-    std::vector<int> z0 = KARATSUBA_ALGORITHM(I1_low, I2_low, B);
-    std::vector<int> z1 = KARATSUBA_ALGORITHM(GRADE_SCHOOL_INTEGER_ADDITION(I1_low, I1_high, B),
-                                              GRADE_SCHOOL_INTEGER_ADDITION(I2_low, I2_high, B), B);
-    std::vector<int> z2 = KARATSUBA_ALGORITHM(I1_high, I2_high, B);
+//     // Recursively calculate the three products
+//     std::vector<int> z0 = KARATSUBA_ALGORITHM(I1_low, I2_low, B);
+//     std::vector<int> z1 = KARATSUBA_ALGORITHM(GRADE_SCHOOL_INTEGER_ADDITION(I1_low, I1_high, B),
+//                                               GRADE_SCHOOL_INTEGER_ADDITION(I2_low, I2_high, B), B);
+//     std::vector<int> z2 = KARATSUBA_ALGORITHM(I1_high, I2_high, B);
 
-    // Combine the results using grade-school subtraction and addition
-    std::vector<int> r1 = GRADE_SCHOOL_INTEGER_SUBTRACTION(z1, z0, B);
-    std::vector<int> r2 = GRADE_SCHOOL_INTEGER_SUBTRACTION(r1, z2, B);
-    std::vector<int> result_high = z2;
-    result_high.insert(result_high.end(), n, 0);  // Equivalent to multiplying by B^n
-    std::vector<int> result_mid = r2;
-    result_mid.insert(result_mid.end(), mid, 0);  // Equivalent to multiplying by B^(n/2)
+//     // Combine the results using grade-school subtraction and addition
+//     std::vector<int> r1 = GRADE_SCHOOL_INTEGER_SUBTRACTION(z1, z0, B);
+//     std::vector<int> r2 = GRADE_SCHOOL_INTEGER_SUBTRACTION(r1, z2, B);
+//     std::vector<int> result_high = z2;
+//     result_high.insert(result_high.end(), n, 0);  // Equivalent to multiplying by B^n
+//     std::vector<int> result_mid = r2;
+//     result_mid.insert(result_mid.end(), mid, 0);  // Equivalent to multiplying by B^(n/2)
     
-    std::vector<int> result = GRADE_SCHOOL_INTEGER_ADDITION(result_high, result_mid, B);
-    result = GRADE_SCHOOL_INTEGER_ADDITION(result, z0, B);
+//     std::vector<int> result = GRADE_SCHOOL_INTEGER_ADDITION(result_high, result_mid, B);
+//     result = GRADE_SCHOOL_INTEGER_ADDITION(result, z0, B);
 
-    return result;
-}
+//     return result;
+// }
 
 
 // Integer Division with Rounding Down (Post-graduate only)
@@ -255,11 +303,7 @@ int main(int argc, char* argv[]){
     std::string pre_I1 = argv[1];
     std::string pre_I2 = argv[2];
     std::string pre_B = argv[3];
-    // std::cout << pre_I1 << std::endl;
 
-    // std::cout << pre_I1 << std::endl;
-    // std::cout << pre_I2 << std::endl;
-    // std::cout << pre_B << std::endl;
 
     // Extract each digit into a list of integers.
     std::vector<int> I1 = digits_transform_alloc(pre_I1);
@@ -270,16 +314,16 @@ int main(int argc, char* argv[]){
 
     
   
-    std::vector<int> res_addition = GRADE_SCHOOL_INTEGER_ADDITION(I1, I2, B);
-    std::vector<int> res_multiplication = KARATSUBA_ALGORITHM(I1, I2, B);
+    std::vector<std::string> res_addition = GRADE_SCHOOL_INTEGER_ADDITION(I1, I2, B);
+    // std::vector<std::string> res_multiplication = KARATSUBA_ALGORITHM(I1, I2, B);
     // std::vector<int> res_division = INTEGER_DIVISION(I1, I2, B);
     
     std::string Addition = digits_transform_output(res_addition);
-    std::string Multiplication = digits_transform_output(res_multiplication);
+    // std::string Multiplication = digits_transform_output(res_multiplication);
     // std::string Division = digits_transform_output(res_division);
     std::cout << Addition
               << " "
-              << Multiplication
+              << "0"
               << " "
               << "0";
     

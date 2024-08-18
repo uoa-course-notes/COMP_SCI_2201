@@ -70,70 +70,71 @@ void align(
 }
 
 // Working with base 2
-// std::vector<std::string> GRADE_SCHOOL_INTEGER_ADDITION(std::vector<int> I1, std::vector<int> I2, int B){
-//   align(I1, I2);
-// //   if (B < 2 && B > 9) return {"-1"};
-//   std::map<int, std::string> hex_map = {
-//     {10,"A"},
-//     {11,"B"},
-//     {12,"C"},
-//     {13,"D"},
-//     {14,"E"},
-//     {15,"F"}  
-//     };
-//   int c = 0;
-//   // Now I1 and I2 must be of the same size
-//   int s1 = I1.size();
-// //   int s2 = I2.size();
-//   // vector of sums 
-//     std::vector<std::string> S(s1);
-//   for (int i = s1-1; i>= 0; i--){ // BEGIN 
-//     if (I1[i] + I2[i] + c >= B){
-//         S[i] = std::to_string((I1[i] + I2[i] + c) % B);
-//         // Convert to appropriate character (for higher bases)
-//         std::map<int, std::string>::iterator it = hex_map.find(stoi(S[i]));        
-//         if (it != hex_map.end()){
-//             S[i] = it->second;
-//         }
-//         // std::cout << "S[i] = " << S[i] << std::endl;
-//         // std::cout << "In 1st if -- Enter:" << std::endl;
-//         // std::cin.get();
-//         c = 1;
+std::vector<std::string> GRADE_SCHOOL_INTEGER_ADDITION(std::vector<int> I1, std::vector<int> I2, int B){
+  align(I1, I2);
+//   if (B < 2 && B > 9) return {"-1"};
+  std::map<int, std::string> hex_map = {
+    {10,"A"},
+    {11,"B"},
+    {12,"C"},
+    {13,"D"},
+    {14,"E"},
+    {15,"F"}  
+    };
+  int c = 0;
+  // Now I1 and I2 must be of the same size
+  int s1 = I1.size();
+//   int s2 = I2.size();
+  // vector of sums 
+    std::vector<std::string> S(s1);
+  for (int i = s1-1; i>= 0; i--){ // BEGIN 
+    if (I1[i] + I2[i] + c >= B){
+        S[i] = std::to_string((I1[i] + I2[i] + c) % B);
+        // Convert to appropriate character (for higher bases)
+        std::map<int, std::string>::iterator it = hex_map.find(stoi(S[i]));        
+        if (it != hex_map.end()){
+            S[i] = it->second;
+        }
+        // std::cout << "S[i] = " << S[i] << std::endl;
+        // std::cout << "In 1st if -- Enter:" << std::endl;
+        // std::cin.get();
+        c = 1;
   
-//     }
-//     else{ // I1[i] + I2[i] + c < B
-//         S[i] = std::to_string(I1[i] + I2[i] + c);
-//         //
-//         std::map<int, std::string>::iterator it = hex_map.find(stoi(S[i]));        
-//         if (it != hex_map.end()){
-//             S[i] = it->second;
-//         }
-//         c = 0;
-//         // std::cout << "In 2nd if -- Enter:" << std::endl;
-//         // std::cin.get();
-//     }
-//   } // END 
-
-//   return S;
-// }
-std::vector<int> GRADE_SCHOOL_INTEGER_ADDITION(std::vector<int> I1, std::vector<int> I2, int B) {
-    align(I1, I2);
-    int carry = 0;
-    int s1 = I1.size();
-    std::vector<int> S(s1);
-
-    for (int i = s1 - 1; i >= 0; i--) {
-        int sum = I1[i] + I2[i] + carry;
-        S[i] = sum % B;
-        carry = sum / B;
     }
-    
-    if (carry > 0) {
-        S.insert(S.begin(), carry); // Prepend carry if it overflows
+    else{ // I1[i] + I2[i] + c < B
+        S[i] = std::to_string(I1[i] + I2[i] + c);
+        //
+        std::map<int, std::string>::iterator it = hex_map.find(stoi(S[i]));        
+        if (it != hex_map.end()){
+            S[i] = it->second;
+        }
+        c = 0;
+        // std::cout << "In 2nd if -- Enter:" << std::endl;
+        // std::cin.get();
     }
+  } // END 
 
-    return S;
+  return S;
 }
+
+// std::vector<int> GRADE_SCHOOL_INTEGER_ADDITION(std::vector<int> I1, std::vector<int> I2, int B) {
+//     align(I1, I2);
+//     int carry = 0;
+//     int s1 = I1.size();
+//     std::vector<int> S(s1);
+
+//     for (int i = s1 - 1; i >= 0; i--) {
+//         int sum = I1[i] + I2[i] + carry;
+//         S[i] = sum % B;
+//         carry = sum / B;
+//     }
+    
+//     if (carry > 0) {
+//         S.insert(S.begin(), carry); // Prepend carry if it overflows
+//     }
+
+//     return S;
+// }
 // Integer subtraction 
 std::vector<std::string> GRADE_SCHOOL_INTEGER_SUBTRACTION(std::vector<int> I1, std::vector<int> I2, int B){
   align(I1, I2);
