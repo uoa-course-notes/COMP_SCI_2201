@@ -217,36 +217,36 @@ std::vector<int> KARATSUBA_ALGORITHM(std::vector<int> I1, std::vector<int> I2, i
 
 
 // Integer Division with Rounding Down (Post-graduate only)
-std::vector<int> INTEGER_DIVISION(std::vector<int> dividend, std::vector<int> divisor, int B) {
-    std::vector<int> quotient;
-    std::vector<int> remainder(dividend.size(), 0);
+// std::vector<int> INTEGER_DIVISION(std::vector<int> dividend, std::vector<int> divisor, int B) {
+//     std::vector<int> quotient;
+//     std::vector<int> remainder(dividend.size(), 0);
 
-    for (int i = 0; i < dividend.size(); i++) {
-        remainder[i] = dividend[i];
-    }
+//     for (int i = 0; i < dividend.size(); i++) {
+//         remainder[i] = dividend[i];
+//     }
 
-    int index = 0;
-    while (index <= dividend.size() - divisor.size()) {
-        std::vector<int> temp(divisor.size() + index, 0);
-        std::copy(divisor.begin(), divisor.end(), temp.begin() + index);
-        while (GRADE_SCHOOL_INTEGER_SUBTRACTION(remainder, temp, B).size() > 0) {
-            remainder = GRADE_SCHOOL_INTEGER_SUBTRACTION(remainder, temp, B);
-            if (quotient.size() <= index) {
-                quotient.push_back(1);
-            } else {
-                quotient[index]++;
-            }
-        }
-        index++;
-    }
+//     int index = 0;
+//     while (index <= dividend.size() - divisor.size()) {
+//         std::vector<int> temp(divisor.size() + index, 0);
+//         std::copy(divisor.begin(), divisor.end(), temp.begin() + index);
+//         while (GRADE_SCHOOL_INTEGER_SUBTRACTION(remainder, temp, B).size() > 0) {
+//             remainder = GRADE_SCHOOL_INTEGER_SUBTRACTION(remainder, temp, B);
+//             if (quotient.size() <= index) {
+//                 quotient.push_back(1);
+//             } else {
+//                 quotient[index]++;
+//             }
+//         }
+//         index++;
+//     }
 
-    // Remove leading zeros from quotient
-    while (quotient.size() > 1 && quotient[0] == 0) {
-        quotient.erase(quotient.begin());
-    }
+//     // Remove leading zeros from quotient
+//     while (quotient.size() > 1 && quotient[0] == 0) {
+//         quotient.erase(quotient.begin());
+//     }
 
-    return quotient;
-}
+//     return quotient;
+// }
 
 
 int main(int argc, char* argv[]){
@@ -272,16 +272,16 @@ int main(int argc, char* argv[]){
   
     std::vector<int> res_addition = GRADE_SCHOOL_INTEGER_ADDITION(I1, I2, B);
     std::vector<int> res_multiplication = KARATSUBA_ALGORITHM(I1, I2, B);
-    std::vector<int> res_division = INTEGER_DIVISION(I1, I2, B);
+    // std::vector<int> res_division = INTEGER_DIVISION(I1, I2, B);
     
     std::string Addition = digits_transform_output(res_addition);
     std::string Multiplication = digits_transform_output(res_multiplication);
-    std::string Division = digits_transform_output(res_division);
+    // std::string Division = digits_transform_output(res_division);
     std::cout << Addition
               << " "
               << Multiplication
               << " "
-              << Division;
+              << "0";
     
 
   return 0;
