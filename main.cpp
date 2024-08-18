@@ -49,8 +49,7 @@ int main(int argc, char* argv[]){
             << " "
             <<  res_multiplication 
             << " " 
-            << res_division
-            << std::endl;
+            << res_division;
 
   return 0;
 }
