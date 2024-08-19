@@ -83,9 +83,12 @@ def DIVISION_ALGORITHM(I1, I2, B):
     return quotient
 
 def main():
-    pre_I1 = sys.argv[1]
-    pre_I2 = sys.argv[2]
-    pre_B = sys.argv[3]
+    # pre_I1 = sys.argv[1]
+    # pre_I2 = sys.argv[2]
+    # pre_B = sys.argv[3]
+    pre_I1 = str(240540143205242311502340531412055204150332)
+    pre_I2 = str(2401150215333414545353530050)
+    pre_B = str(6)
 
     I1 = digits_transform_alloc(pre_I1)
     I2 = digits_transform_alloc(pre_I2)
