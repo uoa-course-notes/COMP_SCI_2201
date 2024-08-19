@@ -62,20 +62,23 @@ def KARATSUBA_ALGORITHM(I1, I2, B):
     I1, I2 = align(I1, I2)
     n = len(I1)
     if n == 1:  # Base case
-        return [I1[0] * I2[0]]
+        return GRADE_SCHOOL_INTEGER_ADDITION([I1[0] * I2[0]], [], B)
 
     mid = n // 2
 
+    # Split digits
     I1_low = I1[mid:]
     I1_high = I1[:mid]
     I2_low = I2[mid:]
     I2_high = I2[:mid]
 
+    # Recursive calls
     z0 = KARATSUBA_ALGORITHM(I1_low, I2_low, B)
     z1 = KARATSUBA_ALGORITHM(GRADE_SCHOOL_INTEGER_ADDITION(I1_low, I1_high, B),
                              GRADE_SCHOOL_INTEGER_ADDITION(I2_low, I2_high, B), B)
     z2 = KARATSUBA_ALGORITHM(I1_high, I2_high, B)
 
+    # Combine results
     result_high = z2 + [0] * (2 * mid)
     result_mid = GRADE_SCHOOL_INTEGER_SUBTRACTION(
         GRADE_SCHOOL_INTEGER_SUBTRACTION(z1, z0, B), z2, B) + [0] * mid
@@ -85,17 +88,25 @@ def KARATSUBA_ALGORITHM(I1, I2, B):
 
     return result
 
+
+
 def DIVISION_ALGORITHM(I1, I2, B):
     quotient = []
     remainder = 0
+    I2_value = int(''.join(map(str, I2)))  # Convert I2 to a single integer
 
     for digit in I1:
         remainder = remainder * B + digit
-        quotient_digit = remainder // int(''.join(map(str, I2)))
+        quotient_digit = remainder // I2_value
         quotient.append(quotient_digit)
-        remainder -= quotient_digit * int(''.join(map(str, I2)))
+        remainder -= quotient_digit * I2_value
 
+    # Trim leading zeros from quotient
+    while len(quotient) > 1 and quotient[0] == 0:
+        quotient.pop(0)
+        
     return quotient
+
 
 def main():
     # pre_I1 = sys.argv[1]
