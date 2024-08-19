@@ -264,6 +264,8 @@ int main(int argc, char *argv[]){
     //           << "I2: " << pre_I2 << std::endl
     //           << "Base: " << pre_B 
     //           << std::endl;
+    // Gettting user input using I/O device instead of taking input from the command line
+    // Assignment description: very substamdard, to say the least (:
     get_input(pre_I1, pre_I2, pre_B);
     
 
