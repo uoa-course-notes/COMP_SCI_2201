@@ -58,36 +58,61 @@ def GRADE_SCHOOL_INTEGER_SUBTRACTION(I1, I2, B):
 
     return S[::-1]
 
-def KARATSUBA_ALGORITHM(I1, I2, B):
-    I1, I2 = align(I1, I2)
+# def KARATSUBA_ALGORITHM(I1, I2, B):
+#     I1, I2 = align(I1, I2)
+#     n = len(I1)
+#     if n <= 2:  # Base case
+#         return GRADE_SCHOOL_INTEGER_ADDITION(I1, I2, B)
+
+#     mid = n // 2
+
+#     # Split digits
+#     I1_low = I1[mid:]
+#     I1_high = I1[:mid]
+#     I2_low = I2[mid:]
+#     I2_high = I2[:mid]
+
+#     # Recursive calls
+#     z0 = KARATSUBA_ALGORITHM(I1_low, I2_low, B)
+#     z1 = KARATSUBA_ALGORITHM(GRADE_SCHOOL_INTEGER_ADDITION(I1_low, I1_high, B),
+#                              GRADE_SCHOOL_INTEGER_ADDITION(I2_low, I2_high, B), B)
+#     z2 = KARATSUBA_ALGORITHM(I1_high, I2_high, B)
+
+#     # Combine results
+#     result_high = z2 + [0] * (2 * mid)
+#     result_mid = GRADE_SCHOOL_INTEGER_SUBTRACTION(
+#         GRADE_SCHOOL_INTEGER_SUBTRACTION(z1, z0, B), z2, B) + [0] * mid
+
+#     result = GRADE_SCHOOL_INTEGER_ADDITION(
+#         GRADE_SCHOOL_INTEGER_ADDITION(result_high, result_mid, B), z0, B)
+
+#     return result
+def karatsuba(I1, I2, B):
     n = len(I1)
-    if n == 1:  # Base case
-        return GRADE_SCHOOL_INTEGER_ADDITION([I1[0] * I2[0]], [], B)
+    
+    # Base case: use grade-school multiplication if length is <= 2
+    if n <= 2:
+        return GRADE_SCHOOL_INTEGER_ADDITION(I1, I2, B)
 
-    mid = n // 2
+    # Split the lists into two halves
+    nby2 = n // 2
+    a, b = I1[:nby2], I1[nby2:]
+    c, d = I2[:nby2], I2[nby2:]
 
-    # Split digits
-    I1_low = I1[mid:]
-    I1_high = I1[:mid]
-    I2_low = I2[mid:]
-    I2_high = I2[:mid]
-
-    # Recursive calls
-    z0 = KARATSUBA_ALGORITHM(I1_low, I2_low, B)
-    z1 = KARATSUBA_ALGORITHM(GRADE_SCHOOL_INTEGER_ADDITION(I1_low, I1_high, B),
-                             GRADE_SCHOOL_INTEGER_ADDITION(I2_low, I2_high, B), B)
-    z2 = KARATSUBA_ALGORITHM(I1_high, I2_high, B)
+    # Recursive steps
+    ac = karatsuba(a, c, B)
+    bd = karatsuba(b, d, B)
+    ad_plus_bc = GRADE_SCHOOL_INTEGER_ADDITION(karatsuba(a, d, B), karatsuba(b, c, B), B)
+    ad_plus_bc = GRADE_SCHOOL_INTEGER_SUBTRACTION(ad_plus_bc, GRADE_SCHOOL_INTEGER_ADDITION(ac, bd, B), B)
 
     # Combine results
-    result_high = z2 + [0] * (2 * mid)
-    result_mid = GRADE_SCHOOL_INTEGER_SUBTRACTION(
-        GRADE_SCHOOL_INTEGER_SUBTRACTION(z1, z0, B), z2, B) + [0] * mid
+    prod = GRADE_SCHOOL_INTEGER_ADDITION(
+        ac + [0] * (2 * nby2),
+        GRADE_SCHOOL_INTEGER_ADDITION(ad_plus_bc + [0] * nby2, bd, B),
+        B
+    )
 
-    result = GRADE_SCHOOL_INTEGER_ADDITION(
-        GRADE_SCHOOL_INTEGER_ADDITION(result_high, result_mid, B), z0, B)
-
-    return result
-
+    return prod
 
 
 def DIVISION_ALGORITHM(I1, I2, B):
@@ -115,6 +140,8 @@ def main():
     # Get 3 integers from the user 
     pre_I1, pre_I2, pre_B = get_input()
 
+    # pre_I1, pre_I2, pre_B = 11000100100001001111000001010110110110010101100101110101100001111010110000,10000000, 2
+    
     # Transforms each input into a vector of integers
     I1 = digits_transform_alloc(str(pre_I1))
     I2 = digits_transform_alloc(str(pre_I2))
@@ -123,7 +150,7 @@ def main():
     # print(f"{I1}, {I2}, {B}")
 
     addition = GRADE_SCHOOL_INTEGER_ADDITION(I1, I2, B)
-    multiplication = KARATSUBA_ALGORITHM(I1, I2, B)
+    multiplication = karatsuba(I1, I2, B)
     division = DIVISION_ALGORITHM(I1, I2, B)
     # subtraction = GRADE_SCHOOL_INTEGER_SUBTRACTION(I1, I2, B)
     
@@ -133,19 +160,26 @@ def main():
     mult_result = digits_transform_output(multiplication)
     div_result = digits_transform_output(division)
     
-    # print(f"Addition: {add_result}")
+    print(f"Addition: {add_result}")
     # print(f"Subtraction: {sub_result}")
-    # print(f"Multiplication: {mult_result}")
+    print(f"Multiplication: {mult_result}")
     # print("Multiplication:", digits_transform_output(multiplication))
-    # print("Division:", digits_transform_output(division))
-    print(f"{add_result} {mult_result} {div_result}")
+    print("Division:", digits_transform_output(division))
+    
+    # print(f"{add_result} {mult_result} {div_result}")
     
     
-    
-    # print("---------------------------------FULL TEST--------------------------------------------")
+
+    print("---------------------------------FULL TEST--------------------------------------------")
     # test_add = 34303100302104324243311110103331002244444311310243102223032232133423342010144440202004040320213 
-    # test_mult = 23132020143304230203120440421433140433104433224312424214100403111220004124440112331143134010413414200123334222243310102330 
     # test_div = 103420003131314212110244422124214444340431341001134002033013412440310
+    
+    test_mult = mult_result
+    expected_mult = 110001001000010011110000010101101101100101011001011101011000011110101100000000000
+    if (test_mult != expected_mult):
+        print(f"Got {mult_result}")
+        print(f"Expected {expected_mult}")
+   
     # if (str(test_add) == add_result and 
     #     str(test_mult) == mult_result):
         

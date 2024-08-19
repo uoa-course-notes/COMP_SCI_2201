@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cmath>
+#include <cstdio>
 #include <map>
 #include <sstream>
 #include <iostream>
@@ -20,10 +21,10 @@ std::vector<int> digits_transform_alloc(const std::string& s)
 
 
 // Use this to convert the resulting vector of strings into a string
-std::string digits_transform_output(const std::vector<int>& s){
+std::string digits_transform_output(const std::vector<std::string>& s){
     std::string result = "";
-    for (const int& elem: s){   
-        result += std::to_string(elem);
+    for (const std::string& elem: s){   
+        result += elem;
     }
 
     // Remove leading zeros from the result
@@ -87,6 +88,8 @@ std::vector<std::string> GRADE_SCHOOL_INTEGER_ADDITION(std::vector<int> I1, std:
 //   int s2 = I2.size();
   // vector of sums 
     std::vector<std::string> S(s1);
+  
+  
   for (int i = s1-1; i>= 0; i--){ // BEGIN 
     if (I1[i] + I2[i] + c >= B){
         S[i] = std::to_string((I1[i] + I2[i] + c) % B);
@@ -117,25 +120,7 @@ std::vector<std::string> GRADE_SCHOOL_INTEGER_ADDITION(std::vector<int> I1, std:
   return S;
 }
 
-// std::vector<int> GRADE_SCHOOL_INTEGER_ADDITION(std::vector<int> I1, std::vector<int> I2, int B) {
-//     align(I1, I2);
-//     int carry = 0;
-//     int s1 = I1.size();
-//     std::vector<int> S(s1);
 
-//     for (int i = s1 - 1; i >= 0; i--) {
-//         int sum = I1[i] + I2[i] + carry;
-//         S[i] = sum % B;
-//         carry = sum / B;
-//     }
-    
-//     if (carry > 0) {
-//         S.insert(S.begin(), carry); // Prepend carry if it overflows
-//     }
-
-//     return S;
-// }
-// Integer subtraction 
 std::vector<std::string> GRADE_SCHOOL_INTEGER_SUBTRACTION(std::vector<int> I1, std::vector<int> I2, int B){
   align(I1, I2);
   std::map<int, std::string> hex_map = {
@@ -199,58 +184,74 @@ std::vector<std::string> GRADE_SCHOOL_INTEGER_SUBTRACTION(std::vector<int> I1, s
 // }
 
 // Karatsuba Multiplication
-// std::vector<std::string> KARATSUBA_ALGORITHM(std::vector<int> I1, std::vector<int> I2, int B) {
-//     align(I1, I2);
-//     int n = I1.size();
-//     if (n <= 4) {  // Base case: Use grade-school multiplication for small numbers
-//         return GRADE_SCHOOL_INTEGER_ADDITION(I1, I2, B);  // Adjust this to the correct multiplication
-//     }
+std::vector<std::string> KARATSUBA_ALGORITHM(std::vector<int> I1, std::vector<int> I2, int B) {
+    align(I1, I2);
+    int n = I1.size();
+    if (n <= 4) {  // Base case: Use grade-school multiplication for small numbers
+        return GRADE_SCHOOL_INTEGER_ADDITION(I1, I2, B);  // Adjust this to the correct multiplication
+    }
 
-//     int mid = n / 2;
+    int mid = n / 2;
 
-//     // Split I1 into two halves
-//     std::vector<int> I1_low(I1.begin() + mid, I1.end());
-//     std::vector<int> I1_high(I1.begin(), I1.begin() + mid);
+    // // Split I1 into two halves
+    // std::vector<int> I1_low(I1.begin() + mid, I1.end());
+    // std::vector<int> I1_high(I1.begin(), I1.begin() + mid);
 
-//     // Split I2 into two halves
-//     std::vector<int> I2_low(I2.begin() + mid, I2.end());
-//     std::vector<int> I2_high(I2.begin(), I2.begin() + mid);
+    // // Split I2 into two halves
+    // std::vector<int> I2_low(I2.begin() + mid, I2.end());
+    // std::vector<int> I2_high(I2.begin(), I2.begin() + mid);
 
-//     // Recursively calculate the three products
-//     std::vector<std::string> z0 = KARATSUBA_ALGORITHM(I1_low, I2_low, B);
-//     std::vector<std::string> z1 = KARATSUBA_ALGORITHM(GRADE_SCHOOL_INTEGER_ADDITION(I1_low, I1_high, B),
-//                                                       GRADE_SCHOOL_INTEGER_ADDITION(I2_low, I2_high, B), B);
-//     std::vector<std::string> z2 = KARATSUBA_ALGORITHM(I1_high, I2_high, B);
+    // // Recursively calculate the three products
+    // std::vector<std::string> z0 = KARATSUBA_ALGORITHM(I1_low, I2_low, B);
+    // std::vector<std::string> z1 = KARATSUBA_ALGORITHM(GRADE_SCHOOL_INTEGER_ADDITION(I1_low, I1_high, B),
+    //                                                   GRADE_SCHOOL_INTEGER_ADDITION(I2_low, I2_high, B), B);
+    // std::vector<std::string> z2 = KARATSUBA_ALGORITHM(I1_high, I2_high, B);
 
-//     // Combine the results using grade-school subtraction and addition
-//     std::vector<std::string> r1 = GRADE_SCHOOL_INTEGER_SUBTRACTION(z1, z0, B);
-//     std::vector<std::string> r2 = GRADE_SCHOOL_INTEGER_SUBTRACTION(r1, z2, B);
-//     std::vector<std::string> result = GRADE_SCHOOL_INTEGER_ADDITION(z2, r2, B);
-//     result = GRADE_SCHOOL_INTEGER_ADDITION(result, z0, B);
+    // // Combine the results using grade-school subtraction and addition
+    // std::vector<std::string> r1 = GRADE_SCHOOL_INTEGER_SUBTRACTION(z1, z0, B);
+    // std::vector<std::string> r2 = GRADE_SCHOOL_INTEGER_SUBTRACTION(r1, z2, B);
+    // std::vector<std::string> result = GRADE_SCHOOL_INTEGER_ADDITION(z2, r2, B);
+    // result = GRADE_SCHOOL_INTEGER_ADDITION(result, z0, B);
 
-//     return result;
-// }
+    // return result;
+    return {};
+}
+
+void get_input(std::string& I1, std::string& I2, std::string& B) {
+    std::string input_line;
+    
+    // Prompt the user for input
+    // std::cout << "Enter I1, I2, and B (separated by spaces): ";
+    std::getline(std::cin, input_line);
+    
+    // Use a stringstream to parse the input
+    std::stringstream ss(input_line);
+    
+    // Read I1 and I2 as strings, and B as an integer
+    ss >> I1 >> I2 >> B;
+    
+    // Check if the input was valid (i.e., B is a non-negative integer)
+    // if (ss.fail() || B < 0) {
+    //     std::cerr << "Invalid input. Please make sure B is a non-negative integer and I1, I2 are valid strings.\n";
+    //     std::exit(EXIT_FAILURE);
+    // }
+}
+
+
 
 
 
 int main(int argc, char *argv[]){
-    // std::string sentence = "I would like to have a talk with my friend.";
-    // char delimiter = ' ';
+    std::string pre_I1;
+    std::string pre_I2;
+    std::string pre_B;
+    get_input(pre_I1, pre_I2, pre_B);
 
-    // std::istringstream iss(sentence);
-    // std::string word = "";
-
-    // while (iss >> word){
-    //     std::cout << word << std::endl;
-    // }
-
-    // int I1 = atoi(argv[1]);
-    // int I2 = atoi(argv[2]);
-    // int B = atoi(argv[3]);
-    std::string pre_I1 = argv[1];
-    std::string pre_I2 = argv[2];
-    std::string pre_B = argv[3];
-    // std::cout << pre_I1 << std::endl;
+    // std::cout << "I1: " << pre_I1 << std::endl
+    //           << "I2: " << pre_I2 << std::endl
+    //           << "Base: " << pre_B 
+    //           << std::endl;
+    
 
     // Extract each digit into a list of integers.
     std::vector<int> I1 = digits_transform_alloc(pre_I1);
@@ -260,36 +261,18 @@ int main(int argc, char *argv[]){
     // int s1 = I1.size();
     // int s2 = I2.size();
 
-    std::vector<int> res_addition = GRADE_SCHOOL_INTEGER_ADDITION(I1, I2, B);
+    std::vector<std::string> res_addition = GRADE_SCHOOL_INTEGER_ADDITION(I1, I2, B);
+    std::vector<std::string> res_multiplication = KARATSUBA_ALGORITHM(I1, I2, B);
 
-    // std::vector<std::string> res_sub = GRADE_SCHOOL_INTEGER_SUBTRACTION(I1, I2, B);
 
     std::string result_add = digits_transform_output(res_addition);
-    // std::string result_sub = digits_transform_output(res_sub);
+    std::string result_mult = digits_transform_output(res_multiplication);
 
-
-    std::cout << "In base B = " << B << std::endl;
-    std::cout << "I1: ";
-    print_digits(I1);
-
-    std::cout << "I2: ";
-    print_digits(I2);
-
-    std::cout << "I1 + I2: ";
-    // print_digits(res_addition);
-    std::cout << result_add << std::endl;
-    
-// 740842727148666851184462012851277206154788067542671162
-// 740842727148666851184462012851277206154788067542671162
-    bool b = "740842727148666851184462012851277206154788067542671162" == "740842727148666851184462012851277206154788067542671162";
-    std::cout << b << std::endl;
-    
-    // std::cout << "I1 - I2: ";
-    // print_digits(res_sub);
-    // std::cout << result_add << std::endl;
-    // std::cout << result_sub << std::endl;
+    std::cout << result_add 
+              << " " 
+              << result_mult 
+              << " "
+              << "0\n";
     
     return 0;
 }
-
-// ./run.sh 111111101111011111110110110001000101111000011100111
