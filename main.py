@@ -58,6 +58,8 @@ def GRADE_SCHOOL_INTEGER_SUBTRACTION(I1, I2, B):
 
     return S[::-1]
 
+
+
 # def KARATSUBA_ALGORITHM(I1, I2, B):
 #     I1, I2 = align(I1, I2)
 #     n = len(I1)

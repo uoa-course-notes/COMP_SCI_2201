@@ -191,15 +191,15 @@ std::vector<std::string> KARATSUBA_ALGORITHM(std::vector<int> I1, std::vector<in
         return GRADE_SCHOOL_INTEGER_ADDITION(I1, I2, B);  // Adjust this to the correct multiplication
     }
 
-    int mid = n / 2;
+    int mid = n / 2; // Integer division unless n is not an integer. 
 
     // // Split I1 into two halves
-    // std::vector<int> I1_low(I1.begin() + mid, I1.end());
-    // std::vector<int> I1_high(I1.begin(), I1.begin() + mid);
+    std::vector<int> I1_low(I1.begin() + mid+1, I1.end());
+    std::vector<int> I1_high(I1.begin(), I1.begin() + mid);
 
     // // Split I2 into two halves
-    // std::vector<int> I2_low(I2.begin() + mid, I2.end());
-    // std::vector<int> I2_high(I2.begin(), I2.begin() + mid);
+    std::vector<int> I2_low(I2.begin() + mid+1, I2.end());
+    std::vector<int> I2_high(I2.begin(), I2.begin() + mid);
 
     // // Recursively calculate the three products
     // std::vector<std::string> z0 = KARATSUBA_ALGORITHM(I1_low, I2_low, B);
@@ -270,7 +270,7 @@ int main(int argc, char *argv[]){
 
     std::cout << result_add 
               << " " 
-              << result_mult 
+              << "0" 
               << " "
               << "0\n";
     
