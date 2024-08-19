@@ -6,19 +6,28 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <stdexcept> // for std::invalid_argument
+#include <cctype>    // for std::isdigit
 
-
-std::vector<int> digits_transform_alloc(const std::string& s)
-{
-    std::vector<int> result(s.size());
+// std::vector<int> digits_transform_alloc(const std::string& s)
+// {
+//     std::vector<int> result(s.size());
+//     std::transform(
+//         s.begin(), s.end(),
+//         result.begin(), 
+//         [](char ch) {return ch - '0';}
+//         );
+//     return result;
+// }
+std::vector<std::string> string_to_vector_of_strings(std::string& s) {
+    std::vector<std::string> result(s.size());
     std::transform(
         s.begin(), s.end(),
-        result.begin(), 
-        [](char ch) {return ch - '0';}
-        );
+        result.begin(),
+        [](char ch) { return std::string(1, ch); } // Convert char to string
+    );
     return result;
 }
-
 
 // Use this to convert the resulting vector of strings into a string
 std::string digits_transform_output(const std::vector<std::string>& s){
@@ -33,6 +42,14 @@ std::string digits_transform_output(const std::vector<std::string>& s){
 }
 
 
+std::vector<int> convert_to_int_vector(std::vector<std::string>& str_vec) {
+    std::vector<int> int_vec;
+    for (const auto& str : str_vec) {
+        // Assumes each string in str_vec is a single character representing a digit
+        int_vec.push_back(str[0] - '0');
+    }
+    return int_vec;
+}
 
 template <typename T>
 void print_digits(const std::vector<T>& result){
@@ -48,9 +65,10 @@ void print_digits(const std::vector<T>& result){
 
 
 // Solving the alignment problem
+template <typename T>
 void align(
-    std::vector<int>& I1, 
-    std::vector<int>& I2)
+    std::vector<T>& I1, 
+    std::vector<T>& I2)
 {
     int s1 = I1.size();
     int s2 = I2.size();
@@ -71,8 +89,11 @@ void align(
 }
 
 // Working with base 2
-std::vector<std::string> GRADE_SCHOOL_INTEGER_ADDITION(std::vector<int> I1, std::vector<int> I2, int B){
-  align(I1, I2);
+std::vector<std::string> GRADE_SCHOOL_INTEGER_ADDITION(std::vector<std::string> str_I1, std::vector<std::string> str_I2, int B){
+    std::vector<int> I1 = convert_to_int_vector(str_I1);
+    std::vector<int> I2 = convert_to_int_vector(str_I2);
+    align(I1, I2);
+
 //   if (B < 2 && B > 9) return {"-1"};
   std::map<int, std::string> hex_map = {
     {10,"A"},
@@ -121,7 +142,9 @@ std::vector<std::string> GRADE_SCHOOL_INTEGER_ADDITION(std::vector<int> I1, std:
 }
 
 
-std::vector<std::string> GRADE_SCHOOL_INTEGER_SUBTRACTION(std::vector<int> I1, std::vector<int> I2, int B){
+std::vector<std::string> GRADE_SCHOOL_INTEGER_SUBTRACTION(std::vector<std::string> str_I1, std::vector<std::string> str_I2, int B){
+  std::vector<int> I1 = convert_to_int_vector(str_I1);
+  std::vector<int> I2 = convert_to_int_vector(str_I2);
   align(I1, I2);
   std::map<int, std::string> hex_map = {
     {10,"A"},
@@ -184,9 +207,13 @@ std::vector<std::string> GRADE_SCHOOL_INTEGER_SUBTRACTION(std::vector<int> I1, s
 // }
 
 // Karatsuba Multiplication
-std::vector<std::string> KARATSUBA_ALGORITHM(std::vector<int> I1, std::vector<int> I2, int B) {
+std::vector<std::string> KARATSUBA_ALGORITHM(std::vector<std::string> I1, std::vector<std::string> I2, int B) {
+    // std::vector<int> I1 = convert_to_int_vector(str_I1);
+    // std::vector<int> I2 = convert_to_int_vector(str_I2);
     align(I1, I2);
     int n = I1.size();
+
+
     if (n <= 4) {  // Base case: Use grade-school multiplication for small numbers
         return GRADE_SCHOOL_INTEGER_ADDITION(I1, I2, B);  // Adjust this to the correct multiplication
     }
@@ -194,25 +221,18 @@ std::vector<std::string> KARATSUBA_ALGORITHM(std::vector<int> I1, std::vector<in
     int mid = n / 2; // Integer division unless n is not an integer. 
 
     // // Split I1 into two halves
-    std::vector<int> I1_low(I1.begin() + mid+1, I1.end());
-    std::vector<int> I1_high(I1.begin(), I1.begin() + mid);
+    std::vector<std::string> I1_low(I1.begin() + mid+1, I1.end());
+    std::vector<std::string> I1_high(I1.begin(), I1.begin() + mid);
 
     // // Split I2 into two halves
-    std::vector<int> I2_low(I2.begin() + mid+1, I2.end());
-    std::vector<int> I2_high(I2.begin(), I2.begin() + mid);
+    std::vector<std::string> I2_low(I2.begin() + mid+1, I2.end());
+    std::vector<std::string> I2_high(I2.begin(), I2.begin() + mid);
 
     // // Recursively calculate the three products
-    // std::vector<std::string> z0 = KARATSUBA_ALGORITHM(I1_low, I2_low, B);
-    // std::vector<std::string> z1 = KARATSUBA_ALGORITHM(GRADE_SCHOOL_INTEGER_ADDITION(I1_low, I1_high, B),
-    //                                                   GRADE_SCHOOL_INTEGER_ADDITION(I2_low, I2_high, B), B);
-    // std::vector<std::string> z2 = KARATSUBA_ALGORITHM(I1_high, I2_high, B);
+    std::vector<std::string> p_3 = KARATSUBA_ALGORITHM(I1_high, I2_high, B);
+    std::vector<std::string> p_0 = KARATSUBA_ALGORITHM(I1_low, I2_low, B);
 
-    // // Combine the results using grade-school subtraction and addition
-    // std::vector<std::string> r1 = GRADE_SCHOOL_INTEGER_SUBTRACTION(z1, z0, B);
-    // std::vector<std::string> r2 = GRADE_SCHOOL_INTEGER_SUBTRACTION(r1, z2, B);
-    // std::vector<std::string> result = GRADE_SCHOOL_INTEGER_ADDITION(z2, r2, B);
-    // result = GRADE_SCHOOL_INTEGER_ADDITION(result, z0, B);
-
+    // GRADE_SCHOOL_INTEGER_ADDITION(std::vector<int> I1, std::vector<int> I2, int B)
     // return result;
     return {};
 }
@@ -229,12 +249,6 @@ void get_input(std::string& I1, std::string& I2, std::string& B) {
     
     // Read I1 and I2 as strings, and B as an integer
     ss >> I1 >> I2 >> B;
-    
-    // Check if the input was valid (i.e., B is a non-negative integer)
-    // if (ss.fail() || B < 0) {
-    //     std::cerr << "Invalid input. Please make sure B is a non-negative integer and I1, I2 are valid strings.\n";
-    //     std::exit(EXIT_FAILURE);
-    // }
 }
 
 
@@ -245,28 +259,26 @@ int main(int argc, char *argv[]){
     std::string pre_I1;
     std::string pre_I2;
     std::string pre_B;
-    get_input(pre_I1, pre_I2, pre_B);
 
     // std::cout << "I1: " << pre_I1 << std::endl
     //           << "I2: " << pre_I2 << std::endl
     //           << "Base: " << pre_B 
     //           << std::endl;
+    get_input(pre_I1, pre_I2, pre_B);
     
 
     // Extract each digit into a list of integers.
-    std::vector<int> I1 = digits_transform_alloc(pre_I1);
-    std::vector<int> I2 = digits_transform_alloc(pre_I2);
+    std::vector<std::string> I1 = string_to_vector_of_strings(pre_I1);
+    std::vector<std::string> I2 = string_to_vector_of_strings(pre_I2);
     int B = stoi(pre_B);
 
-    // int s1 = I1.size();
-    // int s2 = I2.size();
 
     std::vector<std::string> res_addition = GRADE_SCHOOL_INTEGER_ADDITION(I1, I2, B);
-    std::vector<std::string> res_multiplication = KARATSUBA_ALGORITHM(I1, I2, B);
+    // std::vector<std::string> res_multiplication = KARATSUBA_ALGORITHM(I1, I2, B);
 
 
     std::string result_add = digits_transform_output(res_addition);
-    std::string result_mult = digits_transform_output(res_multiplication);
+    // std::string result_mult = digits_transform_output(res_multiplication);
 
     std::cout << result_add 
               << " " 
