@@ -66,10 +66,9 @@ void print_digits(const std::vector<T>& result){
 
 
 // Solving the alignment problem
-template <typename T>
 void align(
-    std::vector<T>& I1, 
-    std::vector<T>& I2)
+    std::vector<int>& I1, 
+    std::vector<int>& I2)
 {
     // std::cout << "Entered align" << std::endl;
     // std::cin.get();
@@ -81,12 +80,16 @@ void align(
         // int max_size = std::max(I1.size(), I2.size());	
         int offset = std::abs(s1 - s2);
         if (s1 > s2){
-            // std::cout << "Inserting..." << std::endl;
+            // std::cout << "Inserting I2..." << std::endl;
             // std::cin.get();
+            // print_digits(I2);
+            
             // Prepend zero's to I2
             I2.insert(I2.begin(), offset, 0);            
         }
         else{
+            // std::cout << "Inserting I1..." << std::endl;
+            // std::cin.get();
             // Prepend zero's to I1
             I1.insert(I1.begin(), offset, 0);            
         }
@@ -94,62 +97,142 @@ void align(
     // std::cout << "Leaving align" << std::endl;
     // std::cin.get();
 }
+void align_strings(
+    std::vector<std::string>& I1, 
+    std::vector<std::string>& I2)
+{
+    // std::cout << "Entered align" << std::endl;
+    // std::cin.get();
+    int s1 = I1.size();
+    int s2 = I2.size();
 
+    if (s1 == s2) return;
+    else{
+        // int max_size = std::max(I1.size(), I2.size());	
+        int offset = std::abs(s1 - s2);
+        if (s1 > s2){
+            // std::cout << "Inserting I2..." << std::endl;
+            // std::cin.get();
+            // print_digits(I2);
+            
+            // Prepend zero's to I2
+            I2.insert(I2.begin(), offset, "0");            
+        }
+        else{
+            // std::cout << "Inserting I1..." << std::endl;
+            // std::cin.get();
+            // Prepend zero's to I1
+            I1.insert(I1.begin(), offset, "0");            
+        }
+    }
+    // std::cout << "Leaving align" << std::endl;
+    // std::cin.get();
+}
 // Working with base 2
-std::vector<std::string> GRADE_SCHOOL_INTEGER_ADDITION(std::vector<std::string> str_I1, std::vector<std::string> str_I2, int B){
+// std::vector<std::string> GRADE_SCHOOL_INTEGER_ADDITION(std::vector<std::string> str_I1, std::vector<std::string> str_I2, int B){
+//     std::vector<int> I1 = convert_to_int_vector(str_I1);
+//     std::vector<int> I2 = convert_to_int_vector(str_I2);
+//     align(I1, I2);
+
+// //   if (B < 2 && B > 9) return {"-1"};
+//   std::map<int, std::string> hex_map = {
+//     {10,"A"},
+//     {11,"B"},
+//     {12,"C"},
+//     {13,"D"},
+//     {14,"E"},
+//     {15,"F"}  
+//     };
+//   int c = 0;
+//   // Now I1 and I2 must be of the same size
+//   int s1 = I1.size();
+// //   int s2 = I2.size();
+//   // vector of sums 
+//     std::vector<std::string> S(s1);
+  
+  
+//   for (int i = s1-1; i>= 0; i--){ // BEGIN 
+//     if (I1[i] + I2[i] + c >= B){
+//         S[i] = std::to_string((I1[i] + I2[i] + c) % B);
+//         // Convert to appropriate character (for higher bases)
+//         std::map<int, std::string>::iterator it = hex_map.find(stoi(S[i]));        
+//         if (it != hex_map.end()){
+//             S[i] = it->second;
+//         }
+//         // std::cout << "S[i] = " << S[i] << std::endl;
+//         // std::cout << "In 1st if -- Enter:" << std::endl;
+//         // std::cin.get();
+//         c = 1;
+  
+//     }
+//     else{ // I1[i] + I2[i] + c < B
+//         S[i] = std::to_string(I1[i] + I2[i] + c);
+//         //
+//         std::map<int, std::string>::iterator it = hex_map.find(stoi(S[i]));        
+//         if (it != hex_map.end()){
+//             S[i] = it->second;
+//         }
+//         c = 0;
+//         // std::cout << "In 2nd if -- Enter:" << std::endl;
+//         // std::cin.get();
+//     }
+//   } // END 
+
+//   return S;
+// }
+std::vector<std::string> GRADE_SCHOOL_INTEGER_ADDITION(
+    std::vector<std::string> str_I1, 
+    std::vector<std::string> str_I2, 
+    int B) 
+{
     std::vector<int> I1 = convert_to_int_vector(str_I1);
     std::vector<int> I2 = convert_to_int_vector(str_I2);
     align(I1, I2);
 
-//   if (B < 2 && B > 9) return {"-1"};
-  std::map<int, std::string> hex_map = {
-    {10,"A"},
-    {11,"B"},
-    {12,"C"},
-    {13,"D"},
-    {14,"E"},
-    {15,"F"}  
+    std::map<int, std::string> hex_map = {
+        {10, "A"},
+        {11, "B"},
+        {12, "C"},
+        {13, "D"},
+        {14, "E"},
+        {15, "F"}
     };
-  int c = 0;
-  // Now I1 and I2 must be of the same size
-  int s1 = I1.size();
-//   int s2 = I2.size();
-  // vector of sums 
-    std::vector<std::string> S(s1);
-  
-  
-  for (int i = s1-1; i>= 0; i--){ // BEGIN 
-    if (I1[i] + I2[i] + c >= B){
-        S[i] = std::to_string((I1[i] + I2[i] + c) % B);
-        // Convert to appropriate character (for higher bases)
-        std::map<int, std::string>::iterator it = hex_map.find(stoi(S[i]));        
-        if (it != hex_map.end()){
-            S[i] = it->second;
-        }
-        // std::cout << "S[i] = " << S[i] << std::endl;
-        // std::cout << "In 1st if -- Enter:" << std::endl;
-        // std::cin.get();
-        c = 1;
-  
-    }
-    else{ // I1[i] + I2[i] + c < B
-        S[i] = std::to_string(I1[i] + I2[i] + c);
-        //
-        std::map<int, std::string>::iterator it = hex_map.find(stoi(S[i]));        
-        if (it != hex_map.end()){
-            S[i] = it->second;
-        }
-        c = 0;
-        // std::cout << "In 2nd if -- Enter:" << std::endl;
-        // std::cin.get();
-    }
-  } // END 
 
-  return S;
+    int carry = 0;
+    int s1 = I1.size();
+    std::vector<std::string> S(s1);
+
+    for (int i = s1 - 1; i >= 0; i--) {  // BEGIN
+        int sum = I1[i] + I2[i] + carry;
+
+        // Handle the carry and the sum modulo B
+        if (sum >= B) {
+            carry = 1;
+            sum = sum % B;
+        } else {
+            carry = 0;
+        }
+
+        // Convert sum to the appropriate string representation
+        if (sum >= 10) {
+            S[i] = hex_map[sum];
+        } else {
+            S[i] = std::to_string(sum);
+        }
+    }  // END
+
+    // Handle any remaining carry
+    if (carry > 0) {
+        S.insert(S.begin(), "1");
+    }
+
+    return S;
 }
 
 
 std::vector<std::string> GRADE_SCHOOL_INTEGER_SUBTRACTION(std::vector<std::string> str_I1, std::vector<std::string> str_I2, int B){
+//   std::cout << "Entered Subtraction" << std::endl;
+//   std::cin.get();
   std::vector<int> I1 = convert_to_int_vector(str_I1);
   std::vector<int> I2 = convert_to_int_vector(str_I2);
   align(I1, I2);
@@ -169,6 +252,8 @@ std::vector<std::string> GRADE_SCHOOL_INTEGER_SUBTRACTION(std::vector<std::strin
   std::vector<std::string> S(s1);
     for (int i = s1-1; i >= 0; i--){
         if (I1[i] - I2[i] < 0){
+            // std::cout << "I1[i] < I2[i]" << std::endl;
+            // std::cin.get();
             I1[i] = I1[i] + B;
 
             S[i] = std::to_string(I1[i] - I2[i]);
@@ -180,6 +265,8 @@ std::vector<std::string> GRADE_SCHOOL_INTEGER_SUBTRACTION(std::vector<std::strin
             I1[i-1]--;
         }
         else{ // I1[i] - I2[i] >= 0
+            // std::cout << "I1[i] >= I2[i]" << std::endl;
+            // std::cin.get();
             S[i] = std::to_string(I1[i] - I2[i]);
             std::map<int, std::string>::iterator it = hex_map.find(stoi(S[i]));        
             if (it != hex_map.end()){
@@ -187,8 +274,9 @@ std::vector<std::string> GRADE_SCHOOL_INTEGER_SUBTRACTION(std::vector<std::strin
             }
         }
     }
-
-  return S;
+    // std::cout << "Leaving subtraction" << std::endl;
+    // std::cin.get();
+    return S;
 }
 
 
@@ -253,86 +341,132 @@ std::vector<std::string> NAIVE_RECURSIVE_MULTIPLICATION(std::vector<std::string>
 // std::vector<std::string> KARATSUBA_ALGORITHM(std::vector<std::string> I1, std::vector<std::string> I2, int B) {
 //     // std::vector<int> I1 = convert_to_int_vector(str_I1);
 //     // std::vector<int> I2 = convert_to_int_vector(str_I2);
-//     align(I1, I2);
-//     int n = std::min(I1.size(), I2.size());
-//     if (n == 1) {  // Base case: Use grade-school multiplication for small numbers
-//         return GRADE_SCHOOL_INTEGER_ADDITION(I1, I2, B);  // Adjust this to the correct multiplication
+//     align_strings(I1, I2);
+//     //Now n1 and n2 should have ths same size 
+//     int n1 = I1.size(); 
+//     int n2 = I2.size();
+//     // Technically, only one of them is needed
+//     // if (n1 == 0) {
+//     //     std::cout << "Someone is 0" << std::endl;
+//     //     std::cin.get();
+        
+//     //     return {"0"};
+//     // }
+//     if (n1 <= 4 || n2 <= 4) {  // Base case: Use grade-school multiplication for small numbers
+//         // std::cout << "Base case entered" << std::endl;
+//         // std::cin.get();
+//         return NAIVE_RECURSIVE_MULTIPLICATION(I1, I2, B);  // Adjust this to the correct multiplication
 //         // return ;
 //     }
-
-//     int mid = n / 2; // Integer division unless n is not an integer. 
+//     int mid = n1 / 2; // Integer division unless n is not an integer. 
 
 //     // // Split I1 into two halves
 //     std::vector<std::string> I1_low(I1.begin() + mid+1, I1.end());
-//     std::vector<std::string> I1_high(I1.begin(), I1.begin() + mid);
+//     std::vector<std::string> I1_high(I1.begin(), I1.begin() + mid+1);
 
 //     // // Split I2 into two halves
 //     std::vector<std::string> I2_low(I2.begin() + mid+1, I2.end());
-//     std::vector<std::string> I2_high(I2.begin(), I2.begin() + mid);
+//     std::vector<std::string> I2_high(I2.begin(), I2.begin() + mid+1);
+//     std::cout << "Finished splitting" << std::endl;
+//     std::cout << "I1_low = "; print_digits(I1_low);
+//     std::cout << "I1_high = ";print_digits(I1_high);
+//     std::cout << "I2_low = "; print_digits(I2_low);
+//     std::cout << "I2_high = ";print_digits(I2_high);
+//     std::cin.get();
 
 //     // // Recursively calculate the three products
 //     std::vector<std::string> p_3 = KARATSUBA_ALGORITHM(I1_high, I2_high, B);
 //     std::vector<std::string> p_0 = KARATSUBA_ALGORITHM(I1_low, I2_low, B);
 //     // std::vector<std::string> p_1 = KARATSUBA_ALGORITHM(I1_high, I2_low, B);
 //     // std::vector<std::string> p_2 = KARATSUBA_ALGORITHM(I1_low,I2_high, B);
+//     // std::cout << "Finished computing p_3 and p_0" << std::endl;
+//     // std::cin.get();
+//     // std::cout << "p3 = ";
+//     // print_digits(p_3);
+//     // std::cout << "p0 = ";
+//     // print_digits(p_0);
+
+//     std::vector<std::string> a_b = GRADE_SCHOOL_INTEGER_ADDITION(I1_low, I1_high, B);
+//     std::vector<std::string> c_d = GRADE_SCHOOL_INTEGER_ADDITION(I2_low, I2_high, B);
+//     // std::cout << "-------------cross------------" << std::endl;
+//     // print_digits(a_b);
+//     // print_digits(c_d);
+//     // std::cin.get();
+    
 //     std::vector<std::string> cross_product = KARATSUBA_ALGORITHM(
-//         GRADE_SCHOOL_INTEGER_ADDITION(I1_low,I1_high, B),
-//         GRADE_SCHOOL_INTEGER_ADDITION(I2_low, I2_high, B),
-//         B
-//     );
+//         a_b, c_d,B
+// );
+
+//     // std::cout << "Finished cross_product: ";
+//     // print_digits(cross_product);
+//     // std::cout << " Entering subtraction." << std::endl;
+//     // std::cin.get();
 
 //     std::vector<std::string> sub1 = GRADE_SCHOOL_INTEGER_SUBTRACTION(cross_product, p_3, B);
+//     // std::cout << "Finished sub1" << std::endl;
+//     // std::cin.get();
+//     // print_digits(sub1);
+
 //     std::vector<std::string> sub2 = GRADE_SCHOOL_INTEGER_SUBTRACTION(sub1, p_0, B);
+//     // std::cout << "Finished sub2" << std::endl;
+//     // print_digits(sub2);
+//     // std::cin.get();
+    
 //     // Combine the result of the 3 sub-problems. 
 //     // return p_3 * pow(B, 2*mid) + sub2 * (pow(B, mid)) + p_0;
 //   // Combine the results of the three products
-  
-
-//     return {};    
+//     // std::cout << "Combining" << std::endl;
+//     // std::cin.get();
+//     std::vector<std::string> power1 = {std::to_string(int(pow(10, 2*mid)))};
+//     std::vector<std::string> power2 = {std::to_string(int(pow(10, mid)))};
+//     std::vector<std::string> op2 = NAIVE_RECURSIVE_MULTIPLICATION(cross_product, power2, B);
+//     std::vector<std::string> op3 = GRADE_SCHOOL_INTEGER_ADDITION(op2,p_0, B);
+//     std::vector<std::string> result = 
+//         GRADE_SCHOOL_INTEGER_ADDITION(
+//         NAIVE_RECURSIVE_MULTIPLICATION(p_3, power1, B),
+//         op3, B);
+//     return result;    
 // }
 
-
-
 std::vector<std::string> KARATSUBA_ALGORITHM(std::vector<std::string> I1, std::vector<std::string> I2, int B) {
-    std::cout << "Program entered" << std::endl;
-    std::cin.get();
-    align(I1, I2);
-    std::cout << "Before base case" << std::endl;
-    std::cin.get();
+    align_strings(I1, I2);
 
     int n1 = I1.size();
     int n2 = I2.size();
-    if (n1 <= 4 || n2 <= 4) {
-        return NAIVE_RECURSIVE_MULTIPLICATION(I1, I2, B);  // Base case: simple multiplication
-    }
-    int n = std::max(n1,n2);
-    int mid = floor(n / 2.0);
 
-    // Split the vectors into low and high parts
+    if (n1 <= 4 || n2 <= 4) {
+        return NAIVE_RECURSIVE_MULTIPLICATION(I1, I2, B);
+    }
+
+    int mid = n1 / 2;
+
     std::vector<std::string> I1_low(I1.begin() + mid, I1.end());
     std::vector<std::string> I1_high(I1.begin(), I1.begin() + mid);
+
     std::vector<std::string> I2_low(I2.begin() + mid, I2.end());
     std::vector<std::string> I2_high(I2.begin(), I2.begin() + mid);
-    std::cout << "Entering recusrive call" << std::endl;
-    std::cin.get();
-    // Recursively calculate three products
-    std::vector<std::string> p_3 = KARATSUBA_ALGORITHM(I1_high, I2_high, B);
-    std::vector<std::string> p_0 = KARATSUBA_ALGORITHM(I1_low, I2_low, B);
-    std::vector<std::string> cross_product = KARATSUBA_ALGORITHM(
-        GRADE_SCHOOL_INTEGER_ADDITION(I1_low, I1_high, B),
-        GRADE_SCHOOL_INTEGER_ADDITION(I2_low, I2_high, B),
-        B
-    );
 
-    std::vector<std::string> sub1 = GRADE_SCHOOL_INTEGER_SUBTRACTION(cross_product, p_3, B);
-    std::vector<std::string> sub2 = GRADE_SCHOOL_INTEGER_SUBTRACTION(sub1, p_0, B);
+    std::vector<std::string> z0 = KARATSUBA_ALGORITHM(I1_low, I2_low, B);
+    std::vector<std::string> z2 = KARATSUBA_ALGORITHM(I1_high, I2_high, B);
 
-    // Shifting and combining
-    for (int i = 0; i < 2 * mid; i++) p_3.push_back("0"); // Shift p_3 by 2*mid
-    for (int i = 0; i < mid; i++) sub2.push_back("0"); // Shift sub2 by mid
+    std::vector<std::string> I1_sum = GRADE_SCHOOL_INTEGER_ADDITION(I1_low, I1_high, B);
+    std::vector<std::string> I2_sum = GRADE_SCHOOL_INTEGER_ADDITION(I2_low, I2_high, B);
 
-    std::vector<std::string> result = GRADE_SCHOOL_INTEGER_ADDITION(p_3, sub2, B);
-    result = GRADE_SCHOOL_INTEGER_ADDITION(result, p_0, B);
+    std::vector<std::string> z1 = KARATSUBA_ALGORITHM(I1_sum, I2_sum, B);
+    z1 = GRADE_SCHOOL_INTEGER_SUBTRACTION(z1, z0, B);
+    z1 = GRADE_SCHOOL_INTEGER_SUBTRACTION(z1, z2, B);
+
+    // Combine the results with appropriate shifts
+    for (int i = 0; i < 2 * (n1 - mid); i++) {
+        z2.push_back("0");
+    }
+
+    for (int i = 0; i < n1 - mid; i++) {
+        z1.push_back("0");
+    }
+
+    std::vector<std::string> result = GRADE_SCHOOL_INTEGER_ADDITION(z2, z1, B);
+    result = GRADE_SCHOOL_INTEGER_ADDITION(result, z0, B);
 
     return result;
 }
@@ -362,7 +496,7 @@ void get_input(std::string& I1, std::string& I2, std::string& B) {
 int main(int argc, char *argv[]){
     std::string pre_I1;
     std::string pre_I2;
-    std::string pre_B;
+    std::string pre_B ;
 
     // std::cout << "I1: " << pre_I1 << std::endl
     //           << "I2: " << pre_I2 << std::endl
@@ -378,14 +512,15 @@ int main(int argc, char *argv[]){
     std::vector<std::string> I2 = string_to_vector_of_strings(pre_I2);
     int B = stoi(pre_B);
 
-
+    // std::vector<std::string> res_addition = {"0", "1", "0"};
     std::vector<std::string> res_addition = GRADE_SCHOOL_INTEGER_ADDITION(I1, I2, B);
-    // std::vector<std::string> res_multiplication = KARATSUBA_ALGORITHM(I1, I2, B);
-    std::vector<std::string> res_multiplication = NAIVE_RECURSIVE_MULTIPLICATION(I1, I2, B);
+    std::vector<std::string> res_multiplication = KARATSUBA_ALGORITHM(I1, I2, B);
+    // std::vector<std::string> res_multiplication = NAIVE_RECURSIVE_MULTIPLICATION(I1, I2, B);
 
     std::string result_add = digits_transform_output(res_addition);
     std::string result_mult = digits_transform_output(res_multiplication);
-
+    // std::cout << result_add << std::endl;
+    
     std::cout << result_add 
               << " " 
               << result_mult 
