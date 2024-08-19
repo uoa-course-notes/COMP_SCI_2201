@@ -248,7 +248,6 @@ std::vector<std::string> GRADE_SCHOOL_INTEGER_ADDITION(std::vector<int> I1, std:
 
 
 int main(int argc, char* argv[]){
-
     // Declare and initialize the variables extracted from the command-line argument  
     std::string pre_I1 = argv[1];
     std::string pre_I2 = argv[2];
@@ -277,6 +276,6 @@ int main(int argc, char* argv[]){
               << " "
               << "0\n";
     
-
+    
   return 0;
 }
