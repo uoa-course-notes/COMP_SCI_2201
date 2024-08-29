@@ -2,7 +2,6 @@
 #include <string>
 #include <vector>
 
-extern GRADE_SCHOOL_INTEGE
 
 std::vector<int> convert_to_int_vector(std::vector<std::string>& str_vec) {
     std::vector<int> int_vec;
