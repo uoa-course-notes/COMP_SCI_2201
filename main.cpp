@@ -1,6 +1,12 @@
 #include <iostream>
 #include <vector>
 #include <string>
+
+
+//By default, PRE_ORDER is 0, IN_ORDER is 1, POST_ORDER is 2
+
+
+
 /****************************
  * In this assignment, I have chosen C++ for my implementation.
  * The implementations include BST's different traversal orders and
@@ -121,8 +127,16 @@ int main(int argc, char** argv){
   // Instead of creating a whole new array and copying the INPUT array
   // into the new one we can: 
   INPUT.pop_back(); // remove the last-inserted element (the finishing move)
+if (finishingMove == "PRE") {
+  
+} 
+else if (finishingMove == "IN"){
 
+}
+else if (finishingMove == "POST"){
 
+}
+else std::cout << "Invalid input. Valid choices: PRE, IN, and POST." << std::endl;
 
 
   // AVL_Tree avl;
