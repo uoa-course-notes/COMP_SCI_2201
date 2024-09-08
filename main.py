@@ -134,6 +134,10 @@ class AVLTree:
         return []
 
 def process_commands(commands):
+    if not commands:
+        print("EMPTY")
+        return
+    
     tree = AVLTree()
     root = None
 
