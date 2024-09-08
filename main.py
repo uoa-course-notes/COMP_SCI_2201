@@ -162,7 +162,7 @@ def process_commands(commands):
     else:
         print("EMPTY")
 
-if __name__ == "__main__":
-    import sys
-    commands = sys.argv[1:]
-    process_commands(commands)
+# if __name__ == "__main__":
+import sys
+commands = sys.argv[1:]
+process_commands(commands)
