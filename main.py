@@ -62,6 +62,9 @@ class AVLTree:
             root.key = temp.key
             root.right = self.delete(root.right, temp.key)
 
+        if root is None:
+            return root
+
         root.height = 1 + max(self.get_height(root.left), self.get_height(root.right))
         balance = self.get_balance(root)
 
@@ -170,4 +173,3 @@ def process_commands(commands):
 import sys
 commands = sys.argv[1:]
 process_commands(commands)
-
