@@ -18,7 +18,7 @@ git commit -m "$1"
 
 
 # Push to the current branch 
-git push origin Assignment_1
+git push origin Assignment_2
 
 
 # Print success message 
