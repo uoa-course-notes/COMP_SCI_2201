@@ -128,7 +128,8 @@ int main(int argc, char** argv){
   // into the new one we can: 
   INPUT.pop_back(); // remove the last-inserted element (the finishing move)
 if (finishingMove == "PRE") {
-  
+   
+
 } 
 else if (finishingMove == "IN"){
 
