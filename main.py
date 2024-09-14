@@ -174,6 +174,7 @@ def process_commands(commands):
 
     
     if result:
+        print("yes")
         print(" ".join(map(str, result)))
         # print(result)
     else:
