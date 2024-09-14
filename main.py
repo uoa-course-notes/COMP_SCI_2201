@@ -158,27 +158,27 @@ def process_commands(commands):
             root = tree.delete(root, value)
 
     # Last command is a traversal operation (IN, PRE, POST)
-    last_command = commands[N-1]    
+    # last_command = commands[N-1]    
     # print(commands[:-1])
     # print(last_command)
     # input()
     
-    if last_command == 'IN':
-        result = tree.inorder_traversal(root)
-    elif last_command == 'PRE':
-        # print(last_command)
-        result = tree.preorder_traversal(root)
-    elif last_command == 'POST':
-        result = tree.postorder_traversal(root)
-    else:
-        result = []
+    # if last_command == 'IN':
+    #     result = tree.inorder_traversal(root)
+    # elif last_command == 'PRE':
+    #     # print(last_command)
+    #     result = tree.preorder_traversal(root)
+    # elif last_command == 'POST':
+    #     result = tree.postorder_traversal(root)
+    # else:
+    #     result = []
     
-    if result:
-        # print("yes")
-        print(" ".join(map(str, result)))
-        # print(result)
-    else:
-        print("EMPTY")
+    # if result:
+    #     # print("yes")
+    #     print(" ".join(map(str, result)))
+    #     # print(result)
+    # else:
+    #     print("EMPTY")
         
 
 # if __name__ == "__main__":
