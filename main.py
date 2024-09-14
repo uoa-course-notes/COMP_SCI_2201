@@ -140,9 +140,9 @@ def process_commands(commands):
     # print(commands[:-1])
     # input()
 
-    if not commands:
-        print("EMPTY before processing.")
-        return
+    # if not commands:
+    #     print("EMPTY before processing.")
+    #     return
     
     
     # Initializing an empty AVL tree 
@@ -173,7 +173,7 @@ def process_commands(commands):
     if result:
         print(" ".join(map(str, result)))
     else:
-        print("EMPTY after processing.")
+        print("EMPTY")
         
 
 # if __name__ == "__main__":
