@@ -1,3 +1,6 @@
+import sys 
+
+
 class AVLNode:
     """Node class for AVL tree."""
     def __init__(self, key):
@@ -136,18 +139,61 @@ class AVLTree:
             return self.postorder_traversal(root.left) + self.postorder_traversal(root.right) + [root.key]
         return []
 
-def process_commands(commands):
-    N = len(commands)
+# def process_commands(commands):
+#     N = len(commands)
 
-    # if not commands:
-    #     print("EMPTY before processing.")
-    #     return
+#     # if not commands:
+#     #     print("EMPTY before processing.")
+#     #     return
     
     
-    # Initializing an empty AVL tree 
+#     # Initializing an empty AVL tree 
+#     tree = AVLTree()
+#     root = None
+#     print(commands)
+#     # Process all the operations
+#     for command in commands[:-1]:
+#         if command.startswith('A'):
+#             value = int(command[1:])
+#             root = tree.insert(root, value)
+#         elif command.startswith('D'):
+#             value = int(command[1:])
+#             root = tree.delete(root, value)
+
+#     # Last command is a traversal operation (IN, PRE, POST)
+#     # last_command = commands[N-1]    
+#     # print(commands[:-1])
+#     # print(last_command)
+#     # input()
+    
+#     # if last_command == 'IN':
+#     #     result = tree.inorder_traversal(root)
+#     # elif last_command == 'PRE':
+#     #     # print(last_command)
+#     #     result = tree.preorder_traversal(root)
+#     # elif last_command == 'POST':
+#     #     result = tree.postorder_traversal(root)
+#     # else:
+#     #     result = []
+    
+#     # if result:
+#     #     # print("yes")
+#     #     print(" ".join(map(str, result)))
+#     #     # print(result)
+#     # else:
+#     #     print("EMPTY")
+        
+
+# # if __name__ == "__main__":
+# import sys
+# # commands = sys.argv[1:]
+# # process_commands(commands)
+# print(sys.argv)
+def process_commands(commands):
+    # Initialize an empty AVL tree
     tree = AVLTree()
     root = None
-    print(commands)
+
     # Process all the operations
     for command in commands[:-1]:
         if command.startswith('A'):
@@ -158,31 +204,25 @@ def process_commands(commands):
             root = tree.delete(root, value)
 
     # Last command is a traversal operation (IN, PRE, POST)
-    # last_command = commands[N-1]    
-    # print(commands[:-1])
-    # print(last_command)
-    # input()
+    last_command = commands[-1]
     
-    # if last_command == 'IN':
-    #     result = tree.inorder_traversal(root)
-    # elif last_command == 'PRE':
-    #     # print(last_command)
-    #     result = tree.preorder_traversal(root)
-    # elif last_command == 'POST':
-    #     result = tree.postorder_traversal(root)
-    # else:
-    #     result = []
-    
-    # if result:
-    #     # print("yes")
-    #     print(" ".join(map(str, result)))
-    #     # print(result)
-    # else:
-    #     print("EMPTY")
-        
+    if last_command == 'IN':
+        result = tree.inorder_traversal(root)
+    elif last_command == 'PRE':
+        result = tree.preorder_traversal(root)
+    elif last_command == 'POST':
+        result = tree.postorder_traversal(root)
+    else:
+        result = []
 
-# if __name__ == "__main__":
-import sys
-# commands = sys.argv[1:]
-# process_commands(commands)
-print(sys.argv)
+    if result:
+        print(" ".join(map(str, result)))
+    else:
+        print("EMPTY")
+
+if __name__ == "__main__":
+    # Read input from stdin
+    input_data = sys.stdin.read().strip()  # Read all input from stdin
+    # print(input_data)
+    commands = input_data.split()  # Split input into a list of commands
+    process_commands(commands)
