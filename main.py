@@ -138,9 +138,13 @@ class AVLTree:
 
 def process_commands(commands):
     if not commands:
-        print("EMPTY")
+        print("EMPTY before processing.")
         return
     
+    # print(commands[:-1])
+    # input()
+    
+    # Initializing an empty AVL tree 
     tree = AVLTree()
     root = None
 
@@ -164,10 +168,12 @@ def process_commands(commands):
     else:
         result = []
 
+    
     if result:
         print(" ".join(map(str, result)))
     else:
-        print("EMPTY")
+        print("EMPTY after processing.")
+        
 
 # if __name__ == "__main__":
 import sys
