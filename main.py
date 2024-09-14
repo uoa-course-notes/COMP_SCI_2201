@@ -164,8 +164,10 @@ def process_commands(commands):
     if last_command == 'IN':
         result = tree.inorder_traversal(root)
     elif last_command == 'PRE':
+        print(last_command)
         result = tree.preorder_traversal(root)
     elif last_command == 'POST':
+        
         result = tree.postorder_traversal(root)
     else:
         result = []
@@ -173,6 +175,7 @@ def process_commands(commands):
     
     if result:
         print(" ".join(map(str, result)))
+        # print(result)
     else:
         print("EMPTY")
         
