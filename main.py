@@ -137,9 +137,9 @@ class AVLTree:
         return []
 
 def process_commands(commands):
-    print(commands[:-1])
-    input()
-    
+    # print(commands[:-1])
+    # input()
+
     if not commands:
         print("EMPTY before processing.")
         return
