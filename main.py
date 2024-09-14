@@ -1,5 +1,6 @@
 import sys
 
+
 class AVLNode:
     """Node class for AVL tree."""
     def __init__(self, key):
@@ -56,13 +57,16 @@ class AVLTree:
         elif key > root.key:
             root.right = self.delete(root.right, key)
         else:
+            # Node with one child or no child
             if not root.left:
                 return root.right
             elif not root.right:
                 return root.left
-            temp = self.get_min_value_node(root.right)
+
+            # Node with two children: replace with largest from the left subtree
+            temp = self.get_max_value_node(root.left)
             root.key = temp.key
-            root.right = self.delete(root.right, temp.key)
+            root.left = self.delete(root.left, temp.key)
 
         if root is None:
             return root
@@ -118,10 +122,12 @@ class AVLTree:
         y.height = 1 + max(self.get_height(y.left), self.get_height(y.right))
         return y
 
-    def get_min_value_node(self, node):
-        if node is None or node.left is None:
-            return node
-        return self.get_min_value_node(node.left)
+    def get_max_value_node(self, node):
+        """Helper function to get the largest node in the left subtree."""
+        current = node
+        while current.right:
+            current = current.right
+        return current
 
     def inorder_traversal(self, root):
         if root:
@@ -170,6 +176,7 @@ def process_commands(commands):
         print("EMPTY")
 
 if __name__ == "__main__":
+    import sys
     # Read input from stdin
     input_data = sys.stdin.read().strip()  # Read all input from stdin
     commands = input_data.split()  # Split input into a list of commands
