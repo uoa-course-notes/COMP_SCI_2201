@@ -183,5 +183,6 @@ def process_commands(commands):
 
 # if __name__ == "__main__":
 import sys
-commands = sys.argv[1:]
-process_commands(commands)
+# commands = sys.argv[1:]
+# process_commands(commands)
+print(sys.argv)
