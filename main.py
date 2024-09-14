@@ -138,8 +138,6 @@ class AVLTree:
 
 def process_commands(commands):
     N = len(commands)
-    # print(commands[:-1])
-    # input()
 
     # if not commands:
     #     print("EMPTY before processing.")
@@ -149,7 +147,7 @@ def process_commands(commands):
     # Initializing an empty AVL tree 
     tree = AVLTree()
     root = None
-
+    print(commands)
     # Process all the operations
     for command in commands[:-1]:
         if command.startswith('A'):
@@ -160,21 +158,23 @@ def process_commands(commands):
             root = tree.delete(root, value)
 
     # Last command is a traversal operation (IN, PRE, POST)
-    last_command = commands[N-1]
+    last_command = commands[N-1]    
+    # print(commands[:-1])
+    # print(last_command)
+    # input()
+    
     if last_command == 'IN':
         result = tree.inorder_traversal(root)
     elif last_command == 'PRE':
-        print(last_command)
+        # print(last_command)
         result = tree.preorder_traversal(root)
     elif last_command == 'POST':
-        
         result = tree.postorder_traversal(root)
     else:
         result = []
-
     
     if result:
-        print("yes")
+        # print("yes")
         print(" ".join(map(str, result)))
         # print(result)
     else:
