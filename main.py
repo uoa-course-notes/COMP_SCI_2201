@@ -137,12 +137,13 @@ class AVLTree:
         return []
 
 def process_commands(commands):
+    print(commands[:-1])
+    input()
+    
     if not commands:
         print("EMPTY before processing.")
         return
     
-    # print(commands[:-1])
-    # input()
     
     # Initializing an empty AVL tree 
     tree = AVLTree()
