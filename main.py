@@ -137,6 +137,7 @@ class AVLTree:
         return []
 
 def process_commands(commands):
+    N = len(commands)
     # print(commands[:-1])
     # input()
 
@@ -159,7 +160,7 @@ def process_commands(commands):
             root = tree.delete(root, value)
 
     # Last command is a traversal operation (IN, PRE, POST)
-    last_command = commands[-1]
+    last_command = commands[N-1]
     if last_command == 'IN':
         result = tree.inorder_traversal(root)
     elif last_command == 'PRE':
