@@ -76,9 +76,12 @@
 
 //   return 0;
 // }
+
+
 #include <iostream>
 #include <string>
 #include <vector>
+#include <sstream>  // For string stream (to split input)
 
 enum Status {
     NEVER_USED,
@@ -154,12 +157,17 @@ public:
     }
 };
 
-int main(int argc, char* argv[]) {
+int main() {
     HashTable hashTable(26); // Table size 26, as there are 26 letters in the alphabet
 
-    for (int i = 1; i < argc; i++) {
-        char action = argv[i][0]; // A or D
-        std::string key = argv[i] + 1; // Rest of the string
+    std::string inputLine;
+    std::getline(std::cin, inputLine); // Read entire line of input
+
+    std::stringstream ss(inputLine);
+    std::string operation;
+    while (ss >> operation) {
+        char action = operation[0]; // A or D
+        std::string key = operation.substr(1); // Rest of the string (the key)
 
         if (action == 'A') {
             hashTable.insert(key);
