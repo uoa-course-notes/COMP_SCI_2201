@@ -1,6 +1,3 @@
-import sys
-
-
 class AVLNode:
     """Node class for AVL tree."""
     def __init__(self, key):
@@ -174,6 +171,9 @@ def process_commands(commands):
         print(" ".join(map(str, result)))
     else:
         print("EMPTY")
+        
+        
+
 
 if __name__ == "__main__":
     import sys
