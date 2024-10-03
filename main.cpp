@@ -80,69 +80,72 @@
 #include <string>
 #include <vector>
 
-enum Status { NEVER_USED, TOMBSTONE, OCCUPIED };
+enum Status {
+    NEVER_USED,
+    TOMBSTONE,
+    OCCUPIED
+};
 
-// HashTable class with linear probing
+struct HashEntry {
+    std::string key;
+    Status status;
+    HashEntry() : key(""), status(NEVER_USED) {}
+};
+
 class HashTable {
 private:
-    struct Slot {
-        std::string key;
-        Status status;
-    };
-    
-    std::vector<Slot> table;
-    
-    // Hash function using the last character of the key
-    int hash(std::string key) {
-        return key.back() - 'a'; // Calculate index based on last character
+    std::vector<HashEntry> table;
+    int size;
+
+    // A simple hash function: returns index based on the last character of the string.
+    int hashFunction(const std::string& key) {
+        return key[key.length() - 1] % size;
     }
-    
+
 public:
-    HashTable() {
-        // Initialize 26 slots with status NEVER_USED
-        table.resize(26);
-        for (int i = 0; i < 26; i++) {
-            table[i].status = NEVER_USED;
-        }
+    HashTable(int tableSize) : size(tableSize) {
+        table.resize(size);
     }
-    
-    // Search function to locate a key
-    int search(std::string key) {
-        int index = hash(key);
-        int start = index; // To avoid infinite loop, track starting point
+
+    // Linear probing search
+    int search(const std::string& key) {
+        int index = hashFunction(key);
+        int originalIndex = index;
         while (table[index].status != NEVER_USED) {
             if (table[index].status == OCCUPIED && table[index].key == key) {
                 return index; // Key found
             }
-            index = (index + 1) % 26; // Linear probing
-            if (index == start) break; // If we come back to the start, stop
+            index = (index + 1) % size;
+            if (index == originalIndex) {
+                break; // Avoid infinite loop
+            }
         }
         return -1; // Key not found
     }
-    
-    // Insert function
-    void insert(std::string key) {
-        if (search(key) != -1) return; // Key already exists
-        
-        int index = hash(key);
-        while (table[index].status == OCCUPIED) {
-            index = (index + 1) % 26; // Linear probing
+
+    void insert(const std::string& key) {
+        if (search(key) != -1) {
+            return; // Key already exists
         }
+
+        int index = hashFunction(key);
+        while (table[index].status == OCCUPIED) {
+            index = (index + 1) % size; // Linear probing
+        }
+
         table[index].key = key;
         table[index].status = OCCUPIED;
     }
-    
-    // Delete function
-    void remove(std::string key) {
+
+    void remove(const std::string& key) {
         int index = search(key);
         if (index != -1) {
-            table[index].status = TOMBSTONE;
+            table[index].status = TOMBSTONE; // Mark as deleted
         }
     }
-    
-    // Function to print the current state of the hash table
-    void print() {
-        for (int i = 0; i < 26; i++) {
+
+    void display() {
+        for (int i = 0; i < size; i++) {
             if (table[i].status == OCCUPIED) {
                 std::cout << table[i].key << " ";
             }
@@ -151,30 +154,21 @@ public:
     }
 };
 
+int main(int argc, char* argv[]) {
+    HashTable hashTable(26); // Table size 26, as there are 26 letters in the alphabet
 
+    for (int i = 1; i < argc; i++) {
+        char action = argv[i][0]; // A or D
+        std::string key = argv[i] + 1; // Rest of the string
 
-int main() {
-    HashTable hashTable;
-    
-    // Read input
-    std::string input;
-    getline(std::cin, input); // Get the entire input line
-    
-    std::string operation;
-    for (size_t i = 0; i < input.length(); i += 11) {
-        operation = input.substr(i, 11); // Extract the operation (e.g., Aapple, Dpear)
-        char op = operation[0]; // A for insert, D for delete
-        std::string key = operation.substr(1); // The key (e.g., "apple")
-        
-        if (op == 'A') {
+        if (action == 'A') {
             hashTable.insert(key);
-        } else if (op == 'D') {
+        } else if (action == 'D') {
             hashTable.remove(key);
         }
     }
-    
-    // Print the final state of the hash table
-    hashTable.print();
-    
+
+    hashTable.display();
+
     return 0;
 }
