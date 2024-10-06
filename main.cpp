@@ -2,7 +2,6 @@
 #include <string>
 #include <vector>
 #include <sstream>  // For string stream (to split input)
-#include <algorithm> // For std::find
 
 
 // enum statuses{
@@ -81,6 +80,10 @@
 // }
 
 
+#include <iostream>
+#include <string>
+#include <vector>
+#include <sstream>  // For string stream (to split input)
 
 enum Status {
     NEVER_USED,
@@ -95,77 +98,68 @@ struct HashEntry {
 };
 
 class HashTable {
-private:
-    std::vector<HashEntry> table;
-    std::vector<std::string> insertionOrder; // To track insertion order
-    int size;
+    private:
+        std::vector<HashEntry> table;
+        int size;
 
-    // A simple hash function: returns index based on the last character of the string.
-    int hashFunction(const std::string& key) {
-        return key[key.length() - 1] % size;
-    }
+        // A simple hash function: returns index based on the last character of the string.
+        int hashFunction(const std::string& key) {
+            return key[key.length() - 1] % size;
+        }
 
-public:
-    HashTable(int tableSize) : size(tableSize) {
-        table.resize(size);
-    }
+    public:
+        HashTable(int tableSize) : size(tableSize) {
+            table.resize(size);
+        }
 
-    // Linear probing search
-    int search(const std::string& key) {
-        int index = hashFunction(key);
-        int originalIndex = index;
-        while (table[index].status != NEVER_USED) {
-            if (table[index].status == OCCUPIED && table[index].key == key) {
-                return index; // Key found
+        // Linear probing search with tombstone checking
+        int search(const std::string& key) {
+            int index = hashFunction(key);
+            int originalIndex = index;
+            while (table[index].status != NEVER_USED) {
+                if (table[index].status == OCCUPIED && table[index].key == key) {
+                    return index; // Key found
+                }
+                index = (index + 1) % size;
+                if (index == originalIndex) {
+                    break; // Avoid infinite loop
+                }
             }
-            index = (index + 1) % size;
-            if (index == originalIndex) {
-                break; // Avoid infinite loop
+            return -1; // Key not found
+        }
+
+        void insert(const std::string& key) {
+            if (search(key) != -1) {
+                return; // Key already exists
             }
-        }
-        return -1; // Key not found
-    }
 
-    void insert(const std::string& key) {
-        // If the key already exists, no need to insert
-        if (search(key) != -1) {
-            return;
-        }
+            int index = hashFunction(key);
+            while (table[index].status == OCCUPIED) {
+                index = (index + 1) % size; // Linear probing
+            }
 
-        int index = hashFunction(key);
-        int tombstoneIndex = -1; // Keep track of the first tombstone encountered
-
-        // Find the appropriate slot for the key using linear probing
-        while (table[index].status == OCCUPIED) {
-            index = (index + 1) % size;
-        }
-
-        // Insert into tombstone slot if available
-        table[index].key = key;
-        table[index].status = OCCUPIED;
-
-        // Track the insertion order
-        insertionOrder.push_back(key);
-    }
-
-    void remove(const std::string& key) {
-        int index = search(key);
-        if (index != -1) {
-            table[index].status = TOMBSTONE; // Mark as deleted
-            // Remove from insertionOrder vector
-            auto it = std::find(insertionOrder.begin(), insertionOrder.end(), key);
-            if (it != insertionOrder.end()) {
-                insertionOrder.erase(it);
+            // If we find a tombstone, we can replace it with the new key
+            if (table[index].status == TOMBSTONE || table[index].status == NEVER_USED) {
+                table[index].key = key;
+                table[index].status = OCCUPIED;
             }
         }
-    }
 
-    void display() {
-        for (const auto& key : insertionOrder) {
-            std::cout << key << " ";
+        void remove(const std::string& key) {
+            int index = search(key);
+            if (index != -1) {
+                table[index].status = TOMBSTONE; // Mark as deleted using tombstone
+            }
         }
-        std::cout << std::endl;
-    }
+
+        void display() {
+            for (int i = 0; i < size; i++) {
+                if (table[i].status == OCCUPIED) {
+                    std::cout << table[i].key << " ";
+                }
+            }
+            std::cout << std::endl;
+        }
 };
 
 int main() {
