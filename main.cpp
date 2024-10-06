@@ -103,8 +103,11 @@ class HashTable {
         int size;
 
         // A simple hash function: returns index based on the last character of the string.
-        int hashFunction(const std::string& key) {
-            return key[key.length() - 1] % size;
+          int hashFunction(const std::string& key) {
+            char lastChar = key[key.length() - 1];
+            int ascii_last = lastChar - 'a';
+            int index = ascii_last;
+            return index;
         }
 
     public:
@@ -122,7 +125,7 @@ class HashTable {
                 }
                 index = (index + 1) % size;
                 if (index == originalIndex) {
-                    break; // Avoid infinite loop
+                    break; // Avoid infinite loop - full cycle.
                 }
             }
             return -1; // Key not found
