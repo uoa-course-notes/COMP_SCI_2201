@@ -62,7 +62,7 @@ int main() {
     vector<string> countryRows, buildRows, destroyRows;
 
     string part;
-    for (unsigned int i = 0; i < countryStr.length(); ++i) {
+    for (int i = 0; i < countryStr.length(); ++i) {
         if (countryStr[i] == ',') {
             countryRows.push_back(part);
             part = "";
@@ -73,7 +73,7 @@ int main() {
     countryRows.push_back(part); // last part
 
     part = "";
-    for (unsigned int i = 0; i < buildStr.length(); ++i) {
+    for (int i = 0; i < buildStr.length(); ++i) {
         if (buildStr[i] == ',') {
             buildRows.push_back(part);
             part = "";
@@ -84,7 +84,7 @@ int main() {
     buildRows.push_back(part); // last part
 
     part = "";
-    for (unsigned int i = 0; i < destroyStr.length(); ++i) {
+    for (int i = 0; i < destroyStr.length(); ++i) {
         if (destroyStr[i] == ',') {
             destroyRows.push_back(part);
             part = "";
