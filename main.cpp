@@ -1,6 +1,9 @@
-// #include <iostream>
-// #include <string.h>
-// #include <vector>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <sstream>  // For string stream (to split input)
+#include <algorithm> // For std::find
+
 
 // enum statuses{
 //   never_used,
@@ -78,10 +81,6 @@
 // }
 
 
-#include <iostream>
-#include <string>
-#include <vector>
-#include <sstream>  // For string stream (to split input)
 
 enum Status {
     NEVER_USED,
@@ -98,6 +97,7 @@ struct HashEntry {
 class HashTable {
 private:
     std::vector<HashEntry> table;
+    std::vector<std::string> insertionOrder; // To track insertion order
     int size;
 
     // A simple hash function: returns index based on the last character of the string.
@@ -127,37 +127,49 @@ public:
     }
 
     void insert(const std::string& key) {
+        // If the key already exists, no need to insert
         if (search(key) != -1) {
-            return; // Key already exists
+            return;
         }
 
         int index = hashFunction(key);
+        int tombstoneIndex = -1; // Keep track of the first tombstone encountered
+
+        // Find the appropriate slot for the key using linear probing
         while (table[index].status == OCCUPIED) {
-            index = (index + 1) % size; // Linear probing
+            index = (index + 1) % size;
         }
 
+        // Insert into tombstone slot if available
         table[index].key = key;
         table[index].status = OCCUPIED;
+
+        // Track the insertion order
+        insertionOrder.push_back(key);
     }
 
     void remove(const std::string& key) {
         int index = search(key);
         if (index != -1) {
             table[index].status = TOMBSTONE; // Mark as deleted
+            // Remove from insertionOrder vector
+            auto it = std::find(insertionOrder.begin(), insertionOrder.end(), key);
+            if (it != insertionOrder.end()) {
+                insertionOrder.erase(it);
+            }
         }
     }
 
     void display() {
-        for (int i = 0; i < size; i++) {
-            if (table[i].status == OCCUPIED) {
-                std::cout << table[i].key << " ";
-            }
+        for (const auto& key : insertionOrder) {
+            std::cout << key << " ";
         }
         std::cout << std::endl;
     }
 };
 
 int main() {
+    // Initialize an empty hash table of size 26.
     HashTable hashTable(26); // Table size 26, as there are 26 letters in the alphabet
 
     std::string inputLine;
