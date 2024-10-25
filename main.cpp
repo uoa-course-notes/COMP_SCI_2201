@@ -86,6 +86,10 @@ public:
     }
 };
 
+
+
+
+
 // Function to parse input from a string
 tuple<vector<vector<int>>, vector<vector<char>>, vector<vector<char>>> parse_input(const string& input_str) {
     string road_str, construc_str, destruct_str;
@@ -145,6 +149,8 @@ tuple<vector<vector<int>>, vector<vector<char>>, vector<vector<char>>> parse_inp
 
     return {country, build, destroy};
 }
+
+
 
 int main() {
     string input_str;
